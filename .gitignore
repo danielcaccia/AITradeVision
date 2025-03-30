@@ -1,0 +1,18 @@
+# Xcode
+.DS_Store
+*.xcuserstate
+*.swp
+xcuserdata/
+*.xccheckout
+*.xcworkspace
+
+# Ignored while project is undergoing
+DerivedData/
+build/
+Pods/
+
+# Other files
+*.log
+*.tmp
+*.bak
+*.swp
