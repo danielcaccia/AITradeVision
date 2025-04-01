@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var viewModel = StockViewModel()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -15,33 +17,18 @@ struct ContentView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .padding()
-
-                // Mocked market list
-                List {
+                
+                List(viewModel.stockPrices) { stock in
                     HStack {
-                        Text("Ação: Apple Inc.")
+                        Text("Ação: \(stock.symbol)")
                         Spacer()
-                        Text("$150.00")
-                            .foregroundColor(.green)
-                    }
-                    HStack {
-                        Text("Ação: Tesla Inc.")
-                        Spacer()
-                        Text("$700.00")
-                            .foregroundColor(.red)
-                    }
-                    HStack {
-                        Text("Bitcoin")
-                        Spacer()
-                        Text("$45,000")
-                            .foregroundColor(.green)
+                        Text("$\(String(format: "%.2f", stock.price))")
+                            .foregroundColor(stock.price >= 0 ? .green : .red)
                     }
                 }
-                .padding()
-
+                
                 Spacer()
                 
-                // Navigation to sentiment analysis or prediction
                 NavigationLink(destination: SentimentAnalysisView()) {
                     Text("Análise de Sentimento")
                         .font(.title)
@@ -57,8 +44,8 @@ struct ContentView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
