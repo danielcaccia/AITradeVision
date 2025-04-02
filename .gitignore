@@ -5,6 +5,7 @@
 xcuserdata/
 *.xccheckout
 *.xcworkspace
+*.xcscheme
 
 # Ignored while project is undergoing
 DerivedData/

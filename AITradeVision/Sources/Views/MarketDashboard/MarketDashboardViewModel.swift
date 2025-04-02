@@ -11,22 +11,20 @@ class StockViewModel: ObservableObject {
     @Published var stockPrices: [StockDTO] = []
     
     private let stockManager: any StockManagerProtocol
-    private let stockSymbols = ["AAPL", "TSLA", "BTC-USD"]
+    private let stockSymbols = ["AAPL", "TSLA", "DIS"]
     
     init(stockManager: some StockManagerProtocol = StockManager()) {
         self.stockManager = stockManager
-        
-        fetchStockPrices()
+        Task {
+            await fetchStockPrices()
+        }
     }
     
-    func fetchStockPrices() {
+    @MainActor
+    func fetchStockPrices() async {
         for symbol in stockSymbols {
-            stockManager.getStockPrice(for: symbol) { stockDTO in
-                if let stockDTO = stockDTO {
-                    DispatchQueue.main.async {
-                        self.stockPrices.append(stockDTO)
-                    }
-                }
+            if let stockDTO = await stockManager.getStockPrice(for: symbol) {
+                stockPrices.append(stockDTO)
             }
         }
     }

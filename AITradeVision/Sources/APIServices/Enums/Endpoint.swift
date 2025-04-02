@@ -9,11 +9,19 @@ import Foundation
 
 enum Endpoint {
     case fetchStockPrice(symbol: String)
-        
-    var url: String {
+    
+    var baseURL: String {
+        switch self {
+        case .fetchStockPrice(_):
+            "https://www.alphavantage.co/query"
+        }
+    }
+    
+    var pathParameters: String {
         switch self {
         case .fetchStockPrice(let symbol):
-            "https://query1.finance.yahoo.com/v7/finance/quote?symbols=\(symbol)"
+            guard let apiKey = ProcessInfo.processInfo.environment["ALPHA_VANTAGE_API_KEY"] else { return ""}
+            return "?function=GLOBAL_QUOTE&symbol=\(symbol)&apikey=\(apiKey)"
         }
     }
 }

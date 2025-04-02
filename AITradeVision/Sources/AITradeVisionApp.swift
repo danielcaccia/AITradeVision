@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct AITradeVisionApp: App {
+    @StateObject var coordinator = AppCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            switch coordinator.currentView {
+            case .marketDashboard:
+                MarketDashboardView()
+                    .environmentObject(coordinator)
+            case .sentimentAnalysis:
+                SentimentAnalysisView()
+                    .environmentObject(coordinator)
+            }
         }
     }
 }

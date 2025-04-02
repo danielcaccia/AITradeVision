@@ -9,10 +9,10 @@ import Foundation
 
 struct Stock: Codable {
     enum CodingKeys: String, CodingKey {
-        case symbol
-        case marketPrice = "regularMarketPrice"
+        case symbol = "01. symbol"
+        case price = "05. price"
     }
     
     let symbol: String
-    let marketPrice: Double
+    let price: String
 }

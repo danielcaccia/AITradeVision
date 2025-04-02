@@ -8,31 +8,28 @@
 import Foundation
 
 protocol FinanceServiceProtocol {
-    func fetchStockPrice(for symbol: String, completion: @escaping (Stock?) -> Void)
+    func fetchStockPrice(for symbol: String) async -> Stock?
 }
 
 class FinanceService: APIService, FinanceServiceProtocol {
-    func fetchStockPrice(for symbol: String, completion: @escaping (Stock?) -> Void) {
-        self.request(endpoint: .fetchStockPrice(symbol: symbol), method: .get) { (result: Result<StockResponse, Error>) in
-            switch result {
-            case .success(let stockResponse):
-                if let stockInfo = stockResponse.quoteResponse.result.first {
-                    let stock = Stock(symbol: stockInfo.symbol, marketPrice: stockInfo.marketPrice)
-                    completion(stock)
-                } else {
-                    completion(nil)
-                }
-            case .failure(_):
-                completion(nil)
-            }
+    func fetchStockPrice(for symbol: String) async -> Stock? {
+        do {
+            let response: StockResponse = try await self.request(endpoint: .fetchStockPrice(symbol: symbol), method: .get)
+            return response.stock
+        } catch let error as APIError {
+            print(error.localizedDescription)
+        } catch {
+            print(error.localizedDescription)
         }
+        
+        return nil
     }
 }
 
 struct StockResponse: Codable {
-    let quoteResponse: QuoteResponse
-}
-
-struct QuoteResponse: Codable {
-    let result: [Stock]
+    enum CodingKeys: String, CodingKey {
+        case stock = "Global Quote"
+    }
+    
+    let stock: Stock
 }

@@ -15,6 +15,6 @@ struct StockDTO: Identifiable {
     init(from stock: Stock) {
         self.id = UUID()
         self.symbol = stock.symbol
-        self.price = stock.marketPrice
+        self.price = Double(stock.price) ?? 0.0
     }
 }

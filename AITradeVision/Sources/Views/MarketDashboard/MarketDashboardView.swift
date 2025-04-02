@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MarketDashboardView.swift
 //  AITradeVision
 //
 //  Created by Daniel Caccia on 31/03/25.
@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct MarketDashboardView: View {
     @StateObject private var viewModel = StockViewModel()
+    @EnvironmentObject var coordinator: AppCoordinator
     
     var body: some View {
         NavigationView {
@@ -29,7 +30,9 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                NavigationLink(destination: SentimentAnalysisView()) {
+                Button(action: {
+                    coordinator.navigate(to: .sentimentAnalysis)
+                }) {
                     Text("Análise de Sentimento")
                         .font(.title)
                         .foregroundColor(.white)
