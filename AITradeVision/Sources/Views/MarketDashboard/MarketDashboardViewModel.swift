@@ -8,24 +8,31 @@
 import Foundation
 
 class StockViewModel: ObservableObject {
-    @Published var stockPrices: [StockDTO] = []
-    
+    @Published var stockPrices: [StockQuoteDTO] = []
+    @Published var selectedStock: String? = nil
+
     private let stockManager: any StockManagerProtocol
     private let stockSymbols = ["AAPL", "TSLA", "DIS"]
     
     init(stockManager: some StockManagerProtocol = StockManager()) {
         self.stockManager = stockManager
+        self.selectedStock = stockSymbols.randomElement()
+        
         Task {
-            await fetchStockPrices()
+            await fetchStockPrices(for: stockSymbols)
         }
     }
     
     @MainActor
-    func fetchStockPrices() async {
-        for symbol in stockSymbols {
+    private func fetchStockPrices(for symbols: [String]) async {
+        for symbol in symbols {
             if let stockDTO = await stockManager.getStockPrice(for: symbol) {
                 stockPrices.append(stockDTO)
             }
         }
+    }
+    
+    func randomSymbol() -> String {
+        return stockSymbols.randomElement() ?? "BA"
     }
 }

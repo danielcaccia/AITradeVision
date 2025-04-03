@@ -15,11 +15,9 @@ struct AITradeVisionApp: App {
         WindowGroup {
             switch coordinator.currentView {
             case .marketDashboard:
-                MarketDashboardView()
-                    .environmentObject(coordinator)
-            case .sentimentAnalysis:
-                SentimentAnalysisView()
-                    .environmentObject(coordinator)
+                MarketDashboardView().environmentObject(coordinator)
+            case .sentimentAnalysis(let symbol):
+                SentimentAnalysisView(stockSymbol: symbol).environmentObject(coordinator)
             }
         }
     }

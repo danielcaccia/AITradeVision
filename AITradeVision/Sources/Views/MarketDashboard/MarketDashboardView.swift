@@ -31,7 +31,7 @@ struct MarketDashboardView: View {
                 Spacer()
                 
                 Button(action: {
-                    coordinator.navigate(to: .sentimentAnalysis)
+                    coordinator.navigate(to: .sentimentAnalysis(stockSymbol: viewModel.randomSymbol() ))
                 }) {
                     Text("Análise de Sentimento")
                         .font(.title)

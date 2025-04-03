@@ -12,7 +12,7 @@ class AppCoordinator: ObservableObject {
     
     enum AppView {
         case marketDashboard
-        case sentimentAnalysis
+        case sentimentAnalysis(stockSymbol: String)
     }
     
     func navigate(to view: AppView) {
