@@ -18,6 +18,8 @@ struct AITradeVisionApp: App {
                 MarketDashboardView().environmentObject(coordinator)
             case .sentimentAnalysis(let symbol):
                 SentimentAnalysisView(stockSymbol: symbol).environmentObject(coordinator)
+            case .stockHistory(stockSymbol: let symbol):
+                StockChartView(stockSymbol: symbol)
             }
         }
     }

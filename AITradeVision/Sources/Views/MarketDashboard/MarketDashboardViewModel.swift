@@ -10,6 +10,7 @@ import Foundation
 class StockViewModel: ObservableObject {
     @Published var stockPrices: [StockQuoteDTO] = []
     @Published var selectedStock: String? = nil
+    @Published var isLoading = false
 
     private let stockManager: any StockManagerProtocol
     private let stockSymbols = ["AAPL", "TSLA", "DIS"]
@@ -25,6 +26,9 @@ class StockViewModel: ObservableObject {
     
     @MainActor
     private func fetchStockPrices(for symbols: [String]) async {
+        isLoading = true
+        defer { isLoading = false }
+        
         for symbol in symbols {
             if let stockDTO = await stockManager.getStockPrice(for: symbol) {
                 stockPrices.append(stockDTO)

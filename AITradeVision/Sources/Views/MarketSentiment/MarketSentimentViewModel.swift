@@ -9,6 +9,7 @@ import Foundation
 
 class MarketSentimentViewModel: ObservableObject {
     @Published var sentiment: Sentiment = .neutral
+    @Published var isLoading = false
     
     private let newsService: any NewsServiceProtocol
     private let sentimentService: any SentimentAnalysisServiceProtocol
@@ -23,6 +24,9 @@ class MarketSentimentViewModel: ObservableObject {
     
     @MainActor
     func fetchMarketSentiment(for symbol: String) async {
+        isLoading = true
+        defer { isLoading = false }
+        
         let articles = await newsService.fetchNews(for: symbol)
         let headlines = articles.map { $0.title.replacingOccurrences(of: "'", with: "’") }.joined(separator: " ")
         

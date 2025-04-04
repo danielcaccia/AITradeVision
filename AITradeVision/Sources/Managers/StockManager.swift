@@ -9,6 +9,7 @@ import Foundation
 
 protocol StockManagerProtocol {
     func getStockPrice(for symbol: String) async -> StockQuoteDTO?
+    func fetchStockHistory(for symbol: String) async -> [StockQuoteDTO]
 }
 
 class StockManager: StockManagerProtocol {
@@ -21,5 +22,9 @@ class StockManager: StockManagerProtocol {
     func getStockPrice(for symbol: String) async -> StockQuoteDTO? {
         guard let stockQuote = await financeService.fetchStockPrice(for: symbol) else { return nil }
         return StockQuoteDTO(from: stockQuote)
+    }
+    
+    func fetchStockHistory(for symbol: String) async -> [StockQuoteDTO] {
+        return await financeService.fetchStockHistory(for: symbol).map { StockQuoteDTO(from: $0) }
     }
 }

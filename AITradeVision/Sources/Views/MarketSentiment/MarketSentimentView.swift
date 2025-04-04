@@ -19,11 +19,16 @@ struct SentimentAnalysisView: View {
                 .font(.title)
                 .padding()
             
-            Text(viewModel.sentiment.text)
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .foregroundColor(viewModel.sentiment.color)
-                .padding()
+            if viewModel.isLoading {
+                ProgressView("Carregando informações...")
+                        .transition(.opacity)
+            } else {
+                Text(viewModel.sentiment.text)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(viewModel.sentiment.color)
+                    .padding()
+            }
             
             Spacer()
             

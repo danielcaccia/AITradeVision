@@ -7,13 +7,15 @@
 
 import Foundation
 
-struct StockQuoteDTO: Identifiable {
+struct StockQuoteDTO: Identifiable, Equatable {
     let id: UUID
     let symbol: String
+    let date: String
     let price: Double
     
     init(from stock: StockQuote) {
         self.id = UUID()
+        self.date = stock.date
         self.symbol = stock.symbol
         self.price = Double(stock.closePrice)
     }
