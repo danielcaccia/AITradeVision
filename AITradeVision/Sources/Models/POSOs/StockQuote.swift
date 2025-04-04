@@ -25,4 +25,14 @@ struct StockQuote: Decodable {
     let lowPrice: Double
     let closePrice: Double
     let volume: Int
+    
+    init(symbol: String, history: HistoricQuote) {
+        self.symbol = symbol
+        self.date = history.date
+        self.openPrice = history.openPrice
+        self.highPrice = history.highPrice
+        self.lowPrice = history.lowPrice
+        self.closePrice = history.closePrice
+        self.volume = history.volume
+    }
 }

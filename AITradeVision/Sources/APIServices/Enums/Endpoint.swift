@@ -9,29 +9,32 @@ import Foundation
 
 enum Endpoint {
     case fetchStockPrice(symbol: String)
+    case fetchStockHistory(symbol: String)
     case fetchNews(symbol: String)
     case analyzeSentiment
     
     var baseURL: String {
         switch self {
-        case .fetchStockPrice(_):
-            "http://127.0.0.1:5001/quote"
+        case .fetchStockPrice(_), .fetchStockHistory(_):
+            "http://127.0.0.1:5001/"
         case .fetchNews(_):
-            "https://newsapi.org/v2/everything"
+            "https://newsapi.org/v2/"
         case .analyzeSentiment:
-            "http://127.0.0.1:5001/analyze"
+            "http://127.0.0.1:5001/"
         }
     }
 
     var pathParameters: String {
         switch self {
         case .fetchStockPrice(let symbol):
-            return "?symbol=\(symbol)"
+            return "quote?symbol=\(symbol)"
+        case .fetchStockHistory(symbol: let symbol):
+            return "stock-history?symbol=\(symbol)"
         case .fetchNews(symbol: let symbol):
             guard let apiKey = ProcessInfo.processInfo.environment["NEWS_API_ORG_API_KEY"] else { return "" }
-            return "?q=\(symbol)&language=en&pageSize=10&apiKey=\(apiKey)"
+            return "everything?q=\(symbol)&language=en&pageSize=10&apiKey=\(apiKey)"
         case .analyzeSentiment:
-            return ""
+            return "analyze"
         }
     }
 }

@@ -42,7 +42,3 @@ class SentimentAnalysisService: APIService, SentimentAnalysisServiceProtocol {
         return ["text": text]
     }
 }
-
-struct SentimentResponse: Decodable {
-    let sentiment: Sentiment
-}

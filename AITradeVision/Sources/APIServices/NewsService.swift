@@ -25,7 +25,3 @@ class NewsService: APIService, NewsServiceProtocol {
         return []
     }
 }
-
-struct NewsResponse: Decodable {
-    let articles: [NewsArticle]
-}
