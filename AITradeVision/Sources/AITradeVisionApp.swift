@@ -15,6 +15,9 @@ struct AITradeVisionApp: App {
         Task {
             await NotificationManager.shared.requestAuthorizationIfNeeded()
         }
+        
+        BackgroundTaskManager.shared.registerBackgroundTasks()
+        BackgroundTaskManager.shared.scheduleAppRefresh()
     }
     
     var body: some Scene {
