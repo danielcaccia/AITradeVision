@@ -9,11 +9,52 @@ import SwiftUI
 
 struct MarketDashboardView: View {
     @StateObject private var viewModel = StockViewModel()
+    @StateObject private var checker = AlertChecker()
+    
+    @State private var showAddAlert = false
+    
     @EnvironmentObject var coordinator: AppCoordinator
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
+                VStack(spacing: 16) {
+                    if checker.isChecking {
+                        ProgressView("Verificando alertas...")
+                    } else if let last = checker.lastChecked {
+                        Text("Última verificação: \(last.formatted(date: .abbreviated, time: .shortened))")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                        
+                        List(checker.getCurrentSavedAlerts()) { alert in
+                            Text("Açåo: \(alert.symbol) - Preço alvo: \(alert.targetPrice)")
+                                .padding()
+                        }
+                    }
+                    
+                    if let error = checker.errorMessage {
+                        Text(error)
+                            .foregroundColor(.red)
+                    }
+                    
+                    Button("Verificar Agora") {
+                        Task {
+                            await checker.checkAlerts()
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    
+                    Button("➕ Adicionar Alerta") {
+                        showAddAlert = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .navigationTitle("AI Trade Vision")
+                .sheet(isPresented: $showAddAlert) {
+                    AddPriceAlertView()
+                }
+                
                 Text("AITradeVision Dashboard")
                     .font(.largeTitle)
                     .fontWeight(.bold)
@@ -21,7 +62,7 @@ struct MarketDashboardView: View {
                 
                 if viewModel.isLoading {
                     ProgressView("Carregando informações...")
-                            .transition(.opacity)
+                        .transition(.opacity)
                 } else {
                     List(viewModel.stockPrices) { stock in
                         HStack {
@@ -60,6 +101,11 @@ struct MarketDashboardView: View {
                 .padding()
             }
             .navigationTitle("Market Dashboard")
+            .onAppear {
+                Task {
+                    await checker.checkAlerts()
+                }
+            }
         }
     }
 }

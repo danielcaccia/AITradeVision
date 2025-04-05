@@ -10,6 +10,8 @@ import Charts
 
 struct StockChartView: View {
     @StateObject private var viewModel = StockChartViewModel()
+    @EnvironmentObject var coordinator: AppCoordinator
+    
     let stockSymbol: String
 
     var body: some View {
@@ -37,6 +39,11 @@ struct StockChartView: View {
             }
 
             Spacer()
+            
+            Button("Voltar") {
+                coordinator.currentView = .marketDashboard
+            }
+            .padding()
         }
         .onAppear {
             Task {

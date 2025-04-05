@@ -11,6 +11,12 @@ import SwiftUI
 struct AITradeVisionApp: App {
     @StateObject var coordinator = AppCoordinator()
     
+    init() {
+        Task {
+            await NotificationManager.shared.requestAuthorizationIfNeeded()
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             switch coordinator.currentView {
@@ -19,7 +25,7 @@ struct AITradeVisionApp: App {
             case .sentimentAnalysis(let symbol):
                 SentimentAnalysisView(stockSymbol: symbol).environmentObject(coordinator)
             case .stockHistory(stockSymbol: let symbol):
-                StockChartView(stockSymbol: symbol)
+                StockChartView(stockSymbol: symbol).environmentObject(coordinator)
             }
         }
     }
