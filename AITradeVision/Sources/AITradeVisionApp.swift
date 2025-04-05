@@ -22,14 +22,8 @@ struct AITradeVisionApp: App {
     
     var body: some Scene {
         WindowGroup {
-            switch coordinator.currentView {
-            case .marketDashboard:
-                MarketDashboardView().environmentObject(coordinator)
-            case .sentimentAnalysis(let symbol):
-                SentimentAnalysisView(stockSymbol: symbol).environmentObject(coordinator)
-            case .stockHistory(stockSymbol: let symbol):
-                StockChartView(stockSymbol: symbol).environmentObject(coordinator)
-            }
+            coordinator.buildCurrentView()
+                .environmentObject(coordinator)
         }
     }
 }
