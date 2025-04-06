@@ -13,6 +13,8 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     
     private let errorHandler = DefaultErrorHandler()
     
+    weak var appCoordinator: AppCoordinator!
+    
     enum MarketRoute: Equatable {
         case marketDashboard
         case sentimentAnalysis(stockSymbol: String)
@@ -22,6 +24,7 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     func start() -> some View {
         MarketContainerView()
             .environmentObject(self)
+            .environmentObject(appCoordinator)
     }
     
     @ViewBuilder
@@ -30,7 +33,7 @@ final class MarketCoordinator: Coordinator, ObservableObject {
         case .marketDashboard:
             let stockManager = StockManager(errorHandler: errorHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
-            let viewModel = MarketDashboardViewModel(stockManager: stockManager)
+            let viewModel = MarketDashboardViewModel(stockManager: stockManager, appCoordinator: appCoordinator)
             MarketDashboardView(viewModel: viewModel, alertChecker: alertChecker)
             
         case .sentimentAnalysis(let symbol):

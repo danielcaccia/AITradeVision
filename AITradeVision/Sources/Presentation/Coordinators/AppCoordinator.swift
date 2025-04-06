@@ -40,12 +40,14 @@ class AppCoordinator: ObservableObject {
     func viewForCurrentFlow() -> some View {
         switch currentFlow {
         case .market:
+            marketCoordinator.appCoordinator = self
             return AnyView(
                 marketCoordinator.start()
                     .environmentObject(self)
                     .environmentObject(marketCoordinator)
             )
         case .auth:
+            authCoordinator.appCoordinator = self
             return AnyView(
                 authCoordinator.start()
                     .environmentObject(self)

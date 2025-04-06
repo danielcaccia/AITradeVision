@@ -104,6 +104,12 @@ struct MarketDashboardView: View {
                         .cornerRadius(10)
                 }
                 .padding()
+                
+                Button("Logout") {
+                    Task { await viewModel.logout() }
+                }
+                .buttonStyle(.borderedProminent)
+                .padding()
             }
             .navigationTitle("Market Dashboard")
             .onAppear {

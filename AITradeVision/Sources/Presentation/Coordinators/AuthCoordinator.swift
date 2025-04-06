@@ -13,7 +13,7 @@ final class AuthCoordinator: Coordinator, ObservableObject {
     
     private let errorHandler = DefaultErrorHandler()
     
-    unowned let appCoordinator: AppCoordinator
+    weak var appCoordinator: AppCoordinator!
     
     enum AuthRoute: Equatable {
         case login

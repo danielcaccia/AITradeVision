@@ -15,8 +15,11 @@ class MarketDashboardViewModel: ObservableObject {
     private let stockManager: any StockManagerProtocol
     private let stockSymbols = ["AAPL", "TSLA", "DIS"]
     
-    init(stockManager: some StockManagerProtocol) {
+    weak var appCoordinator: AppCoordinator?
+    
+    init(stockManager: some StockManagerProtocol, appCoordinator: AppCoordinator? = nil) {
         self.stockManager = stockManager
+        self.appCoordinator = appCoordinator
         self.selectedStock = stockSymbols.randomElement()
         
         Task {
@@ -38,5 +41,17 @@ class MarketDashboardViewModel: ObservableObject {
     
     func randomSymbol() -> String {
         return stockSymbols.randomElement() ?? "BA"
+    }
+    
+    func logout() async {
+        do {
+            try await FirebaseAuthService().logout()
+            
+            await MainActor.run {
+                appCoordinator?.currentFlow = .auth
+            }
+        } catch {
+            print("Erro ao deslogar: \(error.localizedDescription)")
+        }
     }
 }
