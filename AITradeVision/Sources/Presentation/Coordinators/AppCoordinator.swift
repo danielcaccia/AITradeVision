@@ -15,11 +15,11 @@ protocol Coordinator: ObservableObject {
 
 @MainActor
 class AppCoordinator: ObservableObject {
-    @Published var currentFlow: Flow = .market
+    @Published var currentFlow: Flow = .auth
     
-    private let marketCoordinator = MarketCoordinator()
-    private let authCoordinator = AuthCoordinator()
-    private let settingsCoordinator = SettingsCoordinator()
+    private lazy var marketCoordinator = MarketCoordinator()
+    private lazy var authCoordinator = AuthCoordinator(appCoordinator: self)
+    private lazy var settingsCoordinator = SettingsCoordinator()
     
     enum Flow {
         case market

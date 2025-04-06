@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AuthContainerView: View {
+    @EnvironmentObject var appCoordinator: AppCoordinator
     @EnvironmentObject var coordinator: AuthCoordinator
 
     var body: some View {

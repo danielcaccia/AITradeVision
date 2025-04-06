@@ -17,11 +17,30 @@ struct LoginView: View {
     }
     
     var body: some View {
-        VStack {
-            Text("Login Screen")
-            Button("Ir para Cadastro") {
-                coordinator.route = .register
+        VStack(spacing: 20) {
+            TextField("Email", text: $viewModel.email)
+                .keyboardType(.emailAddress)
+                .autocapitalization(.none)
+                .textFieldStyle(.roundedBorder)
+
+            SecureField("Senha", text: $viewModel.password)
+                .textFieldStyle(.roundedBorder)
+
+            if viewModel.isLoading {
+                ProgressView()
+            }
+
+            Button("Entrar") {
+                Task { await viewModel.login() }
+            }
+            .disabled(viewModel.isLoading)
+
+            if let error = viewModel.errorMessage {
+                Text(error)
+                    .foregroundColor(.red)
+                    .font(.footnote)
             }
         }
+        .padding()
     }
 }

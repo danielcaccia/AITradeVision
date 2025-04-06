@@ -6,6 +6,7 @@ xcuserdata/
 *.xccheckout
 *.xcworkspace
 *.xcscheme
+GoogleService-Info.plist
 
 # Ignored while project is undergoing
 DerivedData/

@@ -13,21 +13,32 @@ final class AuthCoordinator: Coordinator, ObservableObject {
     
     private let errorHandler = DefaultErrorHandler()
     
+    unowned let appCoordinator: AppCoordinator
+    
     enum AuthRoute: Equatable {
         case login
         case register
     }
     
+    init(appCoordinator: AppCoordinator) {
+        self.appCoordinator = appCoordinator
+    }
+    
     func start() -> some View {
         AuthContainerView()
             .environmentObject(self)
+            .environmentObject(appCoordinator)
+    }
+    
+    func switchToMainApp() {
+        appCoordinator.currentFlow = .market
     }
     
     @ViewBuilder
     func buildCurrentView(for route: AuthRoute) -> some View {
         switch route {
         case .login:
-            let viewModel = LoginViewModel()
+            let viewModel = LoginViewModel(coordinator: self)
             LoginView(viewModel: viewModel)
             
         case .register:
