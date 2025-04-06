@@ -13,7 +13,7 @@ struct MarketDashboardView: View {
     
     @State private var showAddAlert = false
     
-    @EnvironmentObject var coordinator: AppCoordinator
+    @EnvironmentObject var coordinator: MarketCoordinator
     
     init(viewModel: MarketDashboardViewModel, alertChecker: AlertChecker) {
         self.viewModel = viewModel
@@ -82,7 +82,7 @@ struct MarketDashboardView: View {
                 Spacer()
                 
                 Button(action: {
-                    coordinator.navigate(to: .sentimentAnalysis(stockSymbol: viewModel.randomSymbol() ))
+                    coordinator.route = .sentimentAnalysis(stockSymbol: viewModel.randomSymbol())
                 }) {
                     Text("Análise de Sentimento")
                         .font(.title)
@@ -94,7 +94,7 @@ struct MarketDashboardView: View {
                 .padding()
                 
                 Button(action: {
-                    coordinator.navigate(to: .stockHistory(stockSymbol: viewModel.randomSymbol() ))
+                    coordinator.route = .stockHistory(stockSymbol: viewModel.randomSymbol())
                 }) {
                     Text("Histórico de Preços")
                         .font(.title)

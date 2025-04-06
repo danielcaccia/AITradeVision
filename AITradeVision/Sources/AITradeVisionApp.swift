@@ -22,7 +22,7 @@ struct AITradeVisionApp: App {
     
     var body: some Scene {
         WindowGroup {
-            coordinator.buildCurrentView()
+            coordinator.viewForCurrentFlow()
                 .environmentObject(coordinator)
         }
     }

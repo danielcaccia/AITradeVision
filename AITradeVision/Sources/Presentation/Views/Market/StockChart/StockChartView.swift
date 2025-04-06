@@ -11,7 +11,7 @@ import Charts
 struct StockChartView: View {
     @ObservedObject private var viewModel: StockChartViewModel
     
-    @EnvironmentObject var coordinator: AppCoordinator
+    @EnvironmentObject var coordinator: MarketCoordinator
     
     let stockSymbol: String
     
@@ -47,7 +47,7 @@ struct StockChartView: View {
             Spacer()
             
             Button("Voltar") {
-                coordinator.currentView = .marketDashboard
+                coordinator.route = .marketDashboard
             }
             .padding()
         }

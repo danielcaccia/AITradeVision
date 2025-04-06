@@ -10,7 +10,7 @@ import SwiftUI
 struct MarketSentimentView: View {
     @ObservedObject private var viewModel: MarketSentimentViewModel
     
-    @EnvironmentObject var coordinator: AppCoordinator
+    @EnvironmentObject var coordinator: MarketCoordinator
     
     let stockSymbol: String
     
@@ -39,7 +39,7 @@ struct MarketSentimentView: View {
             Spacer()
             
             Button("Voltar") {
-                coordinator.currentView = .marketDashboard
+                coordinator.route = .marketDashboard
             }
             .padding()
         }
