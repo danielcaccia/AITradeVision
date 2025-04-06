@@ -9,7 +9,6 @@ import XCTest
 @testable import AITradeVision
 
 class NewsManagerTests: XCTestCase {
-    
     var newsManager: NewsManager!
     var mockNewsService: MockNewsService!
     var mockErrorHandler: MockErrorHandler!

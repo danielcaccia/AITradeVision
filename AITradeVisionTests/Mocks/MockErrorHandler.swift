@@ -8,6 +8,8 @@
 @testable import AITradeVision
 
 class MockErrorHandler: ErrorHandler {
+    var errorHandled = false
+    
     func handle(_ error: any Error, context: String?) {
         errorHandled = true
     }
@@ -15,6 +17,4 @@ class MockErrorHandler: ErrorHandler {
     func presentableMessage(for error: any Error) -> String {
         return "TestErrorMessage"
     }
-    
-    var errorHandled = false
 }
