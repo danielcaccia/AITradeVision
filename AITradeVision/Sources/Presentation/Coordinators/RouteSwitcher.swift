@@ -9,10 +9,10 @@ import SwiftUI
 
 struct RouteSwitcher<Route: Equatable, Content: View>: View {
     @Binding var route: Route
+    
     let content: (Route) -> Content
 
     var body: some View {
         content(route)
     }
 }
-

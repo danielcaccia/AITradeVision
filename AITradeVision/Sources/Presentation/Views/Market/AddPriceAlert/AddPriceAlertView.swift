@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct AddPriceAlertView: View {
-    @StateObject private var viewModel = AddPriceAlertViewModel()
-    
+    @ObservedObject private var viewModel = AddPriceAlertViewModel()
     @ObservedObject var manager = PriceAlertManager()
+    
     @Environment(\.dismiss) var dismiss
 
     var body: some View {

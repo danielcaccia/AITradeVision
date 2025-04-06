@@ -18,10 +18,12 @@ class AppCoordinator: ObservableObject {
     @Published var currentFlow: Flow = .market
     
     private let marketCoordinator = MarketCoordinator()
+    private let authCoordinator = AuthCoordinator()
+    private let settingsCoordinator = SettingsCoordinator()
     
     enum Flow {
         case market
-        case login
+        case auth
         case settings
     }
     
@@ -29,17 +31,23 @@ class AppCoordinator: ObservableObject {
     func viewForCurrentFlow() -> some View {
         switch currentFlow {
         case .market:
-            return marketCoordinator.start()
-                .environmentObject(self)
-                .environmentObject(marketCoordinator)
-        case .login:
-            return marketCoordinator.start()
-                .environmentObject(self)
-                .environmentObject(marketCoordinator)
+            return AnyView(
+                marketCoordinator.start()
+                    .environmentObject(self)
+                    .environmentObject(marketCoordinator)
+            )
+        case .auth:
+            return AnyView(
+                authCoordinator.start()
+                    .environmentObject(self)
+                    .environmentObject(authCoordinator)
+            )
         case .settings:
-            return marketCoordinator.start()
-                .environmentObject(self)
-                .environmentObject(marketCoordinator)
+            return AnyView(
+                settingsCoordinator.start()
+                    .environmentObject(self)
+                    .environmentObject(settingsCoordinator)
+            )
         }
     }
 }
