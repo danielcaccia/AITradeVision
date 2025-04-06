@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 @MainActor
 protocol Coordinator: ObservableObject {
@@ -25,6 +26,14 @@ class AppCoordinator: ObservableObject {
         case market
         case auth
         case settings
+    }
+    
+    func checkAuthentication() {
+        if Auth.auth().currentUser != nil {
+            currentFlow = .market
+        } else {
+            currentFlow = .auth
+        }
     }
     
     @MainActor

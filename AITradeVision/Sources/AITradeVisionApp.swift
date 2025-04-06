@@ -34,6 +34,9 @@ struct AITradeVisionApp: App {
         WindowGroup {
             coordinator.viewForCurrentFlow()
                 .environmentObject(coordinator)
+                .onAppear {
+                    coordinator.checkAuthentication()
+                }
         }
     }
 }
