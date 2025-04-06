@@ -42,7 +42,7 @@ final class AuthCoordinator: Coordinator, ObservableObject {
             LoginView(viewModel: viewModel)
             
         case .register:
-            let viewModel = RegisterViewModel()
+            let viewModel = RegisterViewModel(coordinator: self)
             RegisterView(viewModel: viewModel)
         }
     }

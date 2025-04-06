@@ -34,6 +34,10 @@ struct LoginView: View {
                 Task { await viewModel.login() }
             }
             .disabled(viewModel.isLoading)
+            
+            Button("Ainda não tem conta? Cadastre-se") {
+                coordinator.route = .register
+            }
 
             if let error = viewModel.errorMessage {
                 Text(error)
