@@ -110,8 +110,22 @@ struct MarketDashboardView: View {
                 }
                 .buttonStyle(.borderedProminent)
                 .padding()
+                
+                if !AdManager.shared.adsRemoved {
+                    BannerAdView(adUnitID: "ca-app-pub-1707718942795774/3428816957")
+                        .frame(height: 50)
+                }
             }
             .navigationTitle("Market Dashboard")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.appCoordinator?.currentFlow = .settings
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
             .onAppear {
                 Task {
                     await alertChecker.checkAlerts()

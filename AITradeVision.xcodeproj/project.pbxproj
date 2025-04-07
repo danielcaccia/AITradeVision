@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8762A5CF2DA2F0870002B580 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8762A5CE2DA2F0870002B580 /* FirebaseAuth */; };
+		8762AAA92DA3FF570002B580 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 8762AAA82DA3FF570002B580 /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8762AAA92DA3FF570002B580 /* GoogleMobileAds in Frameworks */,
 				8762A5CF2DA2F0870002B580 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -131,6 +133,7 @@
 			name = AITradeVision;
 			packageProductDependencies = (
 				8762A5CE2DA2F0870002B580 /* FirebaseAuth */,
+				8762AAA82DA3FF570002B580 /* GoogleMobileAds */,
 			);
 			productName = AITradeVision;
 			productReference = 872968752D9A0D5A002E0579 /* AITradeVision.app */;
@@ -217,6 +220,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				8762A5CD2DA2F0870002B580 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8762AAA72DA3FF570002B580 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 872968762D9A0D5A002E0579 /* Products */;
@@ -632,6 +636,14 @@
 				minimumVersion = 11.11.0;
 			};
 		};
+		8762AAA72DA3FF570002B580 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -639,6 +651,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8762A5CD2DA2F0870002B580 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		8762AAA82DA3FF570002B580 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8762AAA72DA3FF570002B580 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
