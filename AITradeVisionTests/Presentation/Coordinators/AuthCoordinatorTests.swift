@@ -34,7 +34,7 @@ final class AuthCoordinatorTests: XCTestCase {
         // Act
         sut.switchToMainApp()
         
-        // Arrange
+        // Assert
         XCTAssertEqual(appCoordinator.currentFlow, .market)
     }
 

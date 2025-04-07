@@ -14,5 +14,5 @@ class MockAppCoordinator: AppCoordinator {
         set { flow = newValue }
     }
 
-    private var flow: Flow = .auth
+    private var flow: Flow = .market
 }
