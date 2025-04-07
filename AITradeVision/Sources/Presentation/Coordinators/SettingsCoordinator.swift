@@ -9,15 +9,17 @@ import SwiftUI
 
 @MainActor
 final class SettingsCoordinator: Coordinator, ObservableObject {
-    @Published var route: SettingsRoute = .preferences
+    @Published var route: SettingsRoute = .settings
     
     private let errorHandler = DefaultErrorHandler()
     
     weak var appCoordinator: AppCoordinator!
     
     enum SettingsRoute {
+        case settings
+        case updateEmail
         case preferences
-        // futuros casos: profile, privacy, etc.
+        case language
     }
     
     func start() -> some View {
@@ -26,12 +28,23 @@ final class SettingsCoordinator: Coordinator, ObservableObject {
             .environmentObject(appCoordinator)
     }
     
+    func switchToMainApp() {
+        appCoordinator.currentFlow = .market
+    }
+    
     @ViewBuilder
     func buildCurrentView(for route: SettingsRoute) -> some View {
         switch route {
+        case .settings:
+            let viewModel = SettingsViewModel(coordinator: self, appCoordinator: appCoordinator)
+            SettingsView(viewModel: viewModel)
+        case .updateEmail:
+            let viewModel = UpdateEmailViewModel(coordinator: self)
+            UpdateEmailView(viewModel: viewModel)
         case .preferences:
-            let viewModel = PreferencesViewModel(appCoordinator: appCoordinator)
-            PreferencesView(viewModel: viewModel)
+            PreferencesView()
+        case .language:
+            LanguageSettingsView()
         }
     }
 }

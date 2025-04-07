@@ -2,32 +2,24 @@
 //  PreferencesView.swift
 //  AITradeVision
 //
-//  Created by Daniel Caccia on 06/04/25.
+//  Created by Daniel Caccia on 07/04/25.
 //
 
 import SwiftUI
 
 struct PreferencesView: View {
-    @ObservedObject private var viewModel: PreferencesViewModel
-    
+    @AppStorage("isDarkMode") var isDarkMode = false
+
     @EnvironmentObject var coordinator: SettingsCoordinator
     
-    init(viewModel: PreferencesViewModel) {
-        self.viewModel = viewModel
-    }
-    
     var body: some View {
-        VStack(spacing: 24) {
-            Text("Configurações")
-                .font(.title)
-            
-            Button("Logout") {
-                Task { await viewModel.logout() }
+        Form {
+            Toggle("Modo Escuro", isOn: $isDarkMode)
+
+            Button("Voltar") {
+                coordinator.route = .settings
             }
-            .buttonStyle(.borderedProminent)
-            
-            Spacer()
         }
-        .padding()
+        .navigationTitle("Preferências")
     }
 }

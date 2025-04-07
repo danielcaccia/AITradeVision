@@ -112,6 +112,15 @@ struct MarketDashboardView: View {
                 .padding()
             }
             .navigationTitle("Market Dashboard")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        viewModel.appCoordinator?.currentFlow = .settings
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+            }
             .onAppear {
                 Task {
                     await alertChecker.checkAlerts()

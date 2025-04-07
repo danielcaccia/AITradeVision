@@ -54,6 +54,7 @@ class AppCoordinator: ObservableObject {
                     .environmentObject(authCoordinator)
             )
         case .settings:
+            settingsCoordinator.appCoordinator = self
             return AnyView(
                 settingsCoordinator.start()
                     .environmentObject(self)
