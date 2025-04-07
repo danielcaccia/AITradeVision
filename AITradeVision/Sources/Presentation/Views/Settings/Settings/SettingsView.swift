@@ -10,6 +10,8 @@ import SwiftUI
 struct SettingsView: View {
     @ObservedObject private var viewModel: SettingsViewModel
     
+    @State private var showingPaywall = false
+    
     @EnvironmentObject var coordinator: SettingsCoordinator
     
     init(viewModel: SettingsViewModel) {
@@ -21,6 +23,11 @@ struct SettingsView: View {
             Text("⚙️ Configurações")
                 .font(.largeTitle)
                 .fontWeight(.semibold)
+            
+            Button("💸 Comprar") {
+                showingPaywall = !showingPaywall
+            }
+            .buttonStyle(.bordered)
             
             Button("🔐 Alterar Email/Senha") {
                 viewModel.goToUpdateEmail()
@@ -50,5 +57,8 @@ struct SettingsView: View {
             Spacer()
         }
         .padding()
+        .sheet(isPresented: $showingPaywall) {
+            PaywallView()
+        }
     }
 }

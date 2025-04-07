@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import GoogleMobileAds
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -28,6 +29,7 @@ struct AITradeVisionApp: App {
         
         BackgroundTaskManager.shared.registerBackgroundTasks()
         BackgroundTaskManager.shared.scheduleAppRefresh()
+        MobileAds.shared.start(completionHandler: nil)
     }
     
     var body: some Scene {
