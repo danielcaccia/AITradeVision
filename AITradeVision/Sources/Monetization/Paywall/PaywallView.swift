@@ -97,8 +97,8 @@ struct PaywallView: View {
     }
 }
 
-struct PaywallView_Previews: PreviewProvider {
-    static var previews: some View {
-        PaywallView()
-    }
-}
+//struct PaywallView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PaywallView()
+//    }
+//}

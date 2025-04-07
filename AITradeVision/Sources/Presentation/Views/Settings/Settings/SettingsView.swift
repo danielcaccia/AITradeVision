@@ -11,6 +11,7 @@ struct SettingsView: View {
     @ObservedObject private var viewModel: SettingsViewModel
     
     @State private var showingPaywall = false
+    @State private var showRemoveAds = false
     
     @EnvironmentObject var coordinator: SettingsCoordinator
     
@@ -26,6 +27,11 @@ struct SettingsView: View {
             
             Button("💸 Comprar") {
                 showingPaywall = !showingPaywall
+            }
+            .buttonStyle(.bordered)
+            
+            Button("📢 Remover Anúncios") {
+                showRemoveAds = !showRemoveAds
             }
             .buttonStyle(.bordered)
             
@@ -59,6 +65,9 @@ struct SettingsView: View {
         .padding()
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
+        }
+        .sheet(isPresented: $showRemoveAds) {
+            RemoveAdsView()
         }
     }
 }
