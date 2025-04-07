@@ -9,29 +9,28 @@ import SwiftUI
 
 @MainActor
 final class SettingsCoordinator: Coordinator, ObservableObject {
-    @Published var route: SettingsRoute = .profile
+    @Published var route: SettingsRoute = .preferences
     
     private let errorHandler = DefaultErrorHandler()
     
+    weak var appCoordinator: AppCoordinator!
+    
     enum SettingsRoute {
-        case profile
         case preferences
+        // futuros casos: profile, privacy, etc.
     }
     
     func start() -> some View {
         SettingsContainerView()
             .environmentObject(self)
+            .environmentObject(appCoordinator)
     }
     
     @ViewBuilder
     func buildCurrentView(for route: SettingsRoute) -> some View {
         switch route {
-        case .profile:
-            let viewModel = ProfileViewModel()
-            ProfileView(viewModel: viewModel)
-            
         case .preferences:
-            let viewModel = PreferencesViewModel()
+            let viewModel = PreferencesViewModel(appCoordinator: appCoordinator)
             PreferencesView(viewModel: viewModel)
         }
     }

@@ -11,13 +11,23 @@ struct PreferencesView: View {
     @ObservedObject private var viewModel: PreferencesViewModel
     
     @EnvironmentObject var coordinator: SettingsCoordinator
-
+    
     init(viewModel: PreferencesViewModel) {
         self.viewModel = viewModel
     }
     
     var body: some View {
-        VStack {
+        VStack(spacing: 24) {
+            Text("Configurações")
+                .font(.title)
+            
+            Button("Logout") {
+                Task { await viewModel.logout() }
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Spacer()
         }
+        .padding()
     }
 }
