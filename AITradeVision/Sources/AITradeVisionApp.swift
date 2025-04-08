@@ -20,6 +20,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AITradeVisionApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    @StateObject private var themeManager = TradeVisionThemeManager()
     @StateObject var coordinator = AppCoordinator()
     
     init() {
@@ -35,6 +36,7 @@ struct AITradeVisionApp: App {
     var body: some Scene {
         WindowGroup {
             coordinator.viewForCurrentFlow()
+                .environment(\.tradeVisionTheme, themeManager)
                 .environmentObject(coordinator)
                 .onAppear {
                     coordinator.checkAuthentication()

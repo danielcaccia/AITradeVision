@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MarketDashboardView: View {
+    @Environment(\.tradeVisionTheme.current) var tradeVisionColor
+    
     @EnvironmentObject private var viewModel: MarketDashboardViewModel
     @EnvironmentObject var coordinator: MarketCoordinator
     
@@ -28,7 +30,7 @@ struct MarketDashboardView: View {
                     } else if let last = alertChecker.lastChecked {
                         Text("Última verificação: \(last.formatted(date: .abbreviated, time: .shortened))")
                             .font(.footnote)
-                            .foregroundColor(.gray)
+                            .foregroundColor(tradeVisionColor.primaryText)
                         
                         List(alertChecker.getCurrentSavedAlerts()) { alert in
                             Text("Açåo: \(alert.symbol) - Preço alvo: \(alert.targetPrice)")
@@ -85,9 +87,9 @@ struct MarketDashboardView: View {
                 }) {
                     Text("Análise de Sentimento")
                         .font(.title)
-                        .foregroundColor(.white)
+                        .foregroundColor(tradeVisionColor.primaryText)
                         .padding()
-                        .background(Color.blue)
+                        .background(tradeVisionColor.primaryBlue)
                         .cornerRadius(10)
                 }
                 .padding()
@@ -97,9 +99,9 @@ struct MarketDashboardView: View {
                 }) {
                     Text("Histórico de Preços")
                         .font(.title)
-                        .foregroundColor(.white)
+                        .foregroundColor(tradeVisionColor.primaryText)
                         .padding()
-                        .background(Color.blue)
+                        .background(tradeVisionColor.primaryBlue)
                         .cornerRadius(10)
                 }
                 .padding()
@@ -116,6 +118,7 @@ struct MarketDashboardView: View {
                 }
             }
             .navigationTitle("Market Dashboard")
+            .background(tradeVisionColor.background)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
