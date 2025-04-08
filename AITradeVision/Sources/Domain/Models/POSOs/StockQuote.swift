@@ -10,6 +10,7 @@ import Foundation
 struct StockQuote: Decodable {
     enum CodingKeys: String, CodingKey {
         case symbol
+        case displayName = "display_name"
         case date
         case openPrice = "open"
         case highPrice = "high"
@@ -19,6 +20,7 @@ struct StockQuote: Decodable {
     }
     
     let symbol: String
+    let displayName: String
     let date: String
     let openPrice: Double
     let highPrice: Double
@@ -26,8 +28,9 @@ struct StockQuote: Decodable {
     let closePrice: Double
     let volume: Int
     
-    init(symbol: String, history: HistoricQuote) {
+    init(symbol: String, displayName: String, history: HistoricQuote) {
         self.symbol = symbol
+        self.displayName = displayName
         self.date = history.date
         self.openPrice = history.openPrice
         self.highPrice = history.highPrice

@@ -20,7 +20,7 @@ class FinanceService: APIService, FinanceServiceProtocol {
     func fetchStockHistory(for symbol: String) async throws -> [StockQuote] {
         let response: StockHistoryResponse = try await self.request(endpoint: .fetchStockHistory(symbol: symbol), method: .get)
         return response.history
-            .map { StockQuote(symbol: response.symbol, history: $0) }
+            .map { StockQuote(symbol: response.symbol, displayName: response.displayName, history: $0) }
             .sorted { $0.date < $1.date }
     }
 }

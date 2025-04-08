@@ -6,7 +6,14 @@
 //
 
 struct StockHistoryResponse: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case symbol
+        case displayName = "display_name"
+        case history
+    }
+    
     let symbol: String
+    let displayName: String
     let history: [HistoricQuote]
 }
 
