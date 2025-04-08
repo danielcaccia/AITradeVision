@@ -39,11 +39,13 @@ final class AuthCoordinator: Coordinator, ObservableObject {
         switch route {
         case .login:
             let viewModel = LoginViewModel(coordinator: self)
-            LoginView(viewModel: viewModel)
+            LoginView()
+                .environmentObject(viewModel)
             
         case .register:
             let viewModel = RegisterViewModel(coordinator: self)
-            RegisterView(viewModel: viewModel)
+            RegisterView()
+                .environmentObject(viewModel)
         }
     }
 }

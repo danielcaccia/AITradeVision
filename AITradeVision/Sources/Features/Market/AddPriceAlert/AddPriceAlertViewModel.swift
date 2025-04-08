@@ -14,7 +14,9 @@ class AddPriceAlertViewModel: ObservableObject {
     @Published var isGreaterThan: Bool = true
     @Published var showError: Bool = false
     
-    func createAlert(manager: PriceAlertManager) -> Bool {
+    private let manager = PriceAlertManager()
+    
+    func createAlert() -> Bool {
         guard let price = Double(targetPrice), !symbol.isEmpty else {
             showError = true
             return false

@@ -37,10 +37,12 @@ final class SettingsCoordinator: Coordinator, ObservableObject {
         switch route {
         case .settings:
             let viewModel = SettingsViewModel(coordinator: self, appCoordinator: appCoordinator)
-            SettingsView(viewModel: viewModel)
+            SettingsView()
+                .environmentObject(viewModel)
         case .updateEmail:
             let viewModel = UpdateEmailViewModel(coordinator: self)
-            UpdateEmailView(viewModel: viewModel)
+            UpdateEmailView()
+                .environmentObject(viewModel)
         case .preferences:
             PreferencesView()
         case .language:

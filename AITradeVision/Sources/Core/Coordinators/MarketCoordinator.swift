@@ -34,18 +34,21 @@ final class MarketCoordinator: Coordinator, ObservableObject {
             let stockManager = StockManager(errorHandler: errorHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
             let viewModel = MarketDashboardViewModel(stockManager: stockManager, appCoordinator: appCoordinator)
-            MarketDashboardView(viewModel: viewModel, alertChecker: alertChecker)
+            MarketDashboardView(alertChecker: alertChecker)
+                .environmentObject(viewModel)
             
         case .sentimentAnalysis(let symbol):
             let newsManager = NewsManager(errorHandler: errorHandler)
             let sentimentManager = SentimentManager(errorHandler: errorHandler)
             let viewModel = MarketSentimentViewModel(newsManager: newsManager, sentimentManager: sentimentManager)
-            MarketSentimentView(viewModel: viewModel, stockSymbol: symbol)
+            MarketSentimentView(stockSymbol: symbol)
+                .environmentObject(viewModel)
             
         case .stockHistory(let symbol):
             let stockManager = StockManager(errorHandler: errorHandler)
             let viewModel = StockChartViewModel(stockManager: stockManager)
-            StockChartView(viewModel: viewModel, stockSymbol: symbol)
+            StockChartView(stockSymbol: symbol)
+                .environmentObject(viewModel)
         }
     }
 }

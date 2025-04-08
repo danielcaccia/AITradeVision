@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct UpdateEmailView: View {
-    @ObservedObject var viewModel: UpdateEmailViewModel
-    
+    @EnvironmentObject private var viewModel: UpdateEmailViewModel
     @EnvironmentObject var coordinator: SettingsCoordinator
-    
-    init(viewModel: UpdateEmailViewModel) {
-        self.viewModel = viewModel
-    }
     
     var body: some View {
         VStack(spacing: 16) {
@@ -44,3 +39,9 @@ struct UpdateEmailView: View {
         .padding()
     }
 }
+
+//struct UpdateEmailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UpdateEmailView()
+//    }
+//}

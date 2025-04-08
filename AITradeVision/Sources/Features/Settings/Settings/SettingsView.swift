@@ -8,16 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject private var viewModel: SettingsViewModel
+    @EnvironmentObject private var viewModel: SettingsViewModel
+    @EnvironmentObject var coordinator: SettingsCoordinator
     
     @State private var showingPaywall = false
     @State private var showRemoveAds = false
-    
-    @EnvironmentObject var coordinator: SettingsCoordinator
-    
-    init(viewModel: SettingsViewModel) {
-        self.viewModel = viewModel
-    }
     
     var body: some View {
         VStack(spacing: 24) {
@@ -71,3 +66,9 @@ struct SettingsView: View {
         }
     }
 }
+
+//struct SettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SettingsView()
+//    }
+//}

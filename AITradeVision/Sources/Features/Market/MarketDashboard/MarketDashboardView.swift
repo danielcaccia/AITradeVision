@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct MarketDashboardView: View {
-    @ObservedObject private var viewModel: MarketDashboardViewModel
+    @EnvironmentObject private var viewModel: MarketDashboardViewModel
+    @EnvironmentObject var coordinator: MarketCoordinator
+    
     @ObservedObject private var alertChecker: AlertChecker
     
     @State private var showAddAlert = false
     
-    @EnvironmentObject var coordinator: MarketCoordinator
-    
-    init(viewModel: MarketDashboardViewModel, alertChecker: AlertChecker) {
-        self.viewModel = viewModel
+    init(alertChecker: AlertChecker) {
         self.alertChecker = alertChecker
     }
     
@@ -135,8 +134,8 @@ struct MarketDashboardView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
+//struct MarketDashboardView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ContentView()
+//        MarketDashboardView()
 //    }
 //}

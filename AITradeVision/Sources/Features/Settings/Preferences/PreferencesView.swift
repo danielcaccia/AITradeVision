@@ -23,3 +23,9 @@ struct PreferencesView: View {
         .navigationTitle("Preferências")
     }
 }
+
+//struct PreferencesView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PreferencesView()
+//    }
+//}

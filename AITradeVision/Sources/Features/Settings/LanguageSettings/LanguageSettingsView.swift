@@ -27,3 +27,9 @@ struct LanguageSettingsView: View {
         .padding()
     }
 }
+
+//struct LanguageSettingsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LanguageSettingsView()
+//    }
+//}

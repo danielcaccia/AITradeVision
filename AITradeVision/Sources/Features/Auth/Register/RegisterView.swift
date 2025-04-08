@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct RegisterView: View {
-    @ObservedObject var viewModel: RegisterViewModel
-
+    @EnvironmentObject private var viewModel: RegisterViewModel
     @EnvironmentObject var coordinator: AuthCoordinator
     
     var body: some View {
@@ -45,5 +44,11 @@ struct RegisterView: View {
             }
         }
         .padding()
+    }
+}
+
+struct RegisterView_Previews: PreviewProvider {
+    static var previews: some View {
+        RegisterView()
     }
 }

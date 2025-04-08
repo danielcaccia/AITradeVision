@@ -9,14 +9,12 @@ import SwiftUI
 import Charts
 
 struct StockChartView: View {
-    @ObservedObject private var viewModel: StockChartViewModel
-    
+    @EnvironmentObject private var viewModel: StockChartViewModel
     @EnvironmentObject var coordinator: MarketCoordinator
     
     let stockSymbol: String
     
-    init(viewModel: StockChartViewModel, stockSymbol: String) {
-        self.viewModel = viewModel
+    init(stockSymbol: String) {
         self.stockSymbol = stockSymbol
     }
     

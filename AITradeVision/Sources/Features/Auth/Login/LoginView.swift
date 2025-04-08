@@ -8,13 +8,8 @@
 import SwiftUI
 
 struct LoginView: View {
-    @ObservedObject private var viewModel: LoginViewModel
-    
+    @EnvironmentObject private var viewModel: LoginViewModel
     @EnvironmentObject var coordinator: AuthCoordinator
-
-    init(viewModel: LoginViewModel) {
-        self.viewModel = viewModel
-    }
     
     var body: some View {
         VStack(spacing: 20) {
@@ -48,3 +43,9 @@ struct LoginView: View {
         .padding()
     }
 }
+
+//struct LoginView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LoginView()
+//    }
+//}

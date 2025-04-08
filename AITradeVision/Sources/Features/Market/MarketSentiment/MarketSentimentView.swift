@@ -8,14 +8,12 @@
 import SwiftUI
 
 struct MarketSentimentView: View {
-    @ObservedObject private var viewModel: MarketSentimentViewModel
-    
+    @EnvironmentObject private var viewModel: MarketSentimentViewModel
     @EnvironmentObject var coordinator: MarketCoordinator
     
     let stockSymbol: String
     
-    init(viewModel: MarketSentimentViewModel, stockSymbol: String) {
-        self.viewModel = viewModel
+    init(stockSymbol: String) {
         self.stockSymbol = stockSymbol
     }
     
@@ -51,8 +49,8 @@ struct MarketSentimentView: View {
     }
 }
 
-//struct SentimentAnalysisView_Previews: PreviewProvider {
+//struct MarketSentimentView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        SentimentAnalysisView()
+//        MarketSentimentView()
 //    }
 //}

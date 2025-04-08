@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AddPriceAlertView: View {
     @ObservedObject private var viewModel = AddPriceAlertViewModel()
-    @ObservedObject var manager = PriceAlertManager()
     
     @Environment(\.dismiss) var dismiss
 
@@ -37,7 +36,7 @@ struct AddPriceAlertView: View {
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Salvar") {
-                        if viewModel.createAlert(manager: manager) {
+                        if viewModel.createAlert() {
                             dismiss()
                         }
                     }
@@ -53,8 +52,8 @@ struct AddPriceAlertView: View {
     }
 }
 
-//struct ContentView_Previews: PreviewProvider {
+//struct AddPriceAlertView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        ContentView()
+//        AddPriceAlertView()
 //    }
 //}
