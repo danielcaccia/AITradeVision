@@ -56,10 +56,10 @@ struct RemoveAdsView: View {
         }
         .padding()
         .navigationTitle("Remover Anúncios")
-        .onChange(of: viewModel.success) {
-            if viewModel.success {
-                dismiss()
-            }
-        }
+//        .onChange(of: viewModel.success) {
+//            if viewModel.success {
+//                dismiss()
+//            }
+//        }
     }
 }

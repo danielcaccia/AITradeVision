@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class MarketDashboardViewModel: ObservableObject {
     @Published var stockPrices: [StockQuoteDTO] = []
     @Published var selectedStock: String? = nil
@@ -27,7 +28,6 @@ class MarketDashboardViewModel: ObservableObject {
         }
     }
     
-    @MainActor
     private func fetchStockPrices(for symbols: [String]) async {
         isLoading = true
         defer { isLoading = false }
@@ -41,6 +41,10 @@ class MarketDashboardViewModel: ObservableObject {
     
     func randomSymbol() -> String {
         return stockSymbols.randomElement() ?? "BA"
+    }
+    
+    func goToSettings() {
+        appCoordinator?.currentFlow = .settings
     }
     
     func logout() async {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TradeVisionUI
 import Firebase
 import GoogleMobileAds
 
@@ -20,8 +21,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AITradeVisionApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-    @StateObject private var themeManager = TradeVisionThemeManager()
     @StateObject var coordinator = AppCoordinator()
+    
+    @State private var scheme: TradeVisionColorScheme = .system
     
     init() {
         Task {
@@ -36,7 +38,7 @@ struct AITradeVisionApp: App {
     var body: some Scene {
         WindowGroup {
             coordinator.viewForCurrentFlow()
-                .environment(\.tradeVisionTheme, themeManager)
+                .tradeVisionTheme(scheme)
                 .environmentObject(coordinator)
                 .onAppear {
                     coordinator.checkAuthentication()

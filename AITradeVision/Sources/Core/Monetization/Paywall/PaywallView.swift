@@ -79,11 +79,11 @@ struct PaywallView: View {
                     }
                 }
             }
-            .onChange(of: viewModel.purchaseSuccessful) {
-                if viewModel.purchaseSuccessful {
-                    dismiss()
-                }
-            }
+//            .onChange(of: viewModel.purchaseSuccessful) {
+//                if viewModel.purchaseSuccessful {
+//                    dismiss()
+//                }
+//            }
         }
     }
 
