@@ -30,9 +30,9 @@ struct MarketMoversView: View {
                     TradeVisionLabelWithIcon(
                         "Top Gainers",
                         type: .title,
-                        image: Image(systemName: "chart.line.uptrend.xyaxis"),
+                        iconImage: Image(systemName: "chart.line.uptrend.xyaxis"),
                         position: .right,
-                        iconColor: .positive
+                        iconColor: .success
                     )
                     
                     ForEach(gainers, id: \.0) { item in
@@ -42,7 +42,7 @@ struct MarketMoversView: View {
                         
                         Spacer()
                         
-                        TradeVisionLabel(item.1, type: .positive)
+                        TradeVisionLabel(item.1, type: .success)
                     }
                 }
                 
@@ -52,9 +52,9 @@ struct MarketMoversView: View {
                     TradeVisionLabelWithIcon(
                         "Top Losers",
                         type: .title,
-                        image: Image(systemName: "chart.line.downtrend.xyaxis"),
+                        iconImage: Image(systemName: "chart.line.downtrend.xyaxis"),
                         position: .right,
-                        iconColor: .negative
+                        iconColor: .error
                     )
                     
                     ForEach(losers, id: \.0) { item in
@@ -64,7 +64,7 @@ struct MarketMoversView: View {
                         
                         Spacer()
                         
-                        TradeVisionLabel(item.1, type: .positive)
+                        TradeVisionLabel(item.1, type: .error)
                     }
                 }
             }

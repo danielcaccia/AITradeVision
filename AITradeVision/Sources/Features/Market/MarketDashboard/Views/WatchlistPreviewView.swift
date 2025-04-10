@@ -24,7 +24,7 @@ struct WatchlistPreviewView: View {
                     TradeVisionLabel(stock.0, type: .title)
                     Spacer()
                     TradeVisionLabel(stock.1, type: .title)
-                    TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .negative : .positive)
+                    TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .error : .success)
                 }
                 .padding(.vertical, TradeVisionSpacing.xs)
             }

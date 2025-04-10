@@ -23,10 +23,10 @@ struct QuickActionsView: View {
         let icon: String
 
         var body: some View {
-            TradeVisionLabelWithImage(
+            TradeVisionLabelWithIcon(
                 title,
                 type: .subtitle,
-                image: Image(systemName: icon),
+                iconImage: Image(systemName: icon),
                 position: .top
             )
             .frame(maxWidth: .infinity)

@@ -23,8 +23,8 @@ struct MarketDashboardView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack {
-                    MarketHeaderView(title: "Market Dashboard", action: toggleShowAddAlert)
+                TradeVisionVStack(alignment: .leading) {
+                    MarketHeaderView(title: "Market Dashboard")
                     MarketSummaryCardsView()
                     MarketMoversView()
                     WatchlistPreviewView()
@@ -33,17 +33,9 @@ struct MarketDashboardView: View {
                 }
                 .padding()
             }
-            .tradeVisionBackground(.primaryBackground).ignoresSafeArea()
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("AITradeVision")
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button(action: viewModel.goToSettings) {
-                        Image(systemName: "gear")
-                    }
-                    .buttonStyle(TradeVisionIconButtonStyle())
-                }
-            }
+            .tradeVisionBackground(.primaryBackground)
+            .tradeNavigationBar(title: "AITradeVision")
+            .withSettingsButton(action: viewModel.goToSettings)
             .sheet(isPresented: $showAddAlert) {
                 AddPriceAlertView()
             }

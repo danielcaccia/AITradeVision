@@ -6,22 +6,30 @@
 //
 
 import SwiftUI
+import TradeVisionUI
 
 struct PreferencesView: View {
-    @AppStorage("isDarkMode") var isDarkMode = false
+    @AppStorage("SELECTED_THEME") private var selectedTheme: TradeVisionColorScheme = .system
 
     @EnvironmentObject var coordinator: SettingsCoordinator
     
-    var body: some View {
-        Form {
-            Toggle("Modo Escuro", isOn: $isDarkMode)
-
-            Button("Voltar") {
-                coordinator.route = .settings
+    public var body: some View {
+            Form {
+                Section(header: Text("Aparência")) {
+                    Picker("Tema", selection: $selectedTheme) {
+                        ForEach(TradeVisionColorScheme.allCases) { scheme in
+                            Text(scheme.displayName).tag(scheme)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
+                
+                Button("Voltar") {
+                    coordinator.route = .settings
+                }
             }
+            .navigationTitle("Configurações")
         }
-        .navigationTitle("Preferências")
-    }
 }
 
 //struct PreferencesView_Previews: PreviewProvider {

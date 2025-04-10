@@ -10,19 +10,17 @@ import TradeVisionUI
 
 struct MarketHeaderView: View {
     let title: String
-    let action: @MainActor () -> Void
     
     var body: some View {
-        TradeVisionHStack {
+        TradeVisionHStack(spacing: TradeVisionSpacing.sm) {
+            TradeVisionImage(Image(.marketDashboardIcon), type: .headerIcon)
             TradeVisionLabel(title, type: .header)
-            
-            Spacer()
-            
-            Button(action: action) {
-                Image(systemName: "bell")
-            }
-            .buttonStyle(TradeVisionIconButtonStyle())
+//            Spacer()
+//            
+//            Button(action: action) {
+//                Image(systemName: "bell")
+//            }
+//            .buttonStyle(TradeVisionIconButtonStyle())
         }
-        .padding(.horizontal)
     }
 }

@@ -21,7 +21,11 @@ struct MarketNewsView: View {
 
             ForEach(news, id: \.self) { item in
                 TradeVisionHStack {
-                    TradeVisionLabelWithImage(item, type: .subtitle, image: Image(systemName: "newspaper"))
+                    TradeVisionLabelWithIcon(
+                        item,
+                        type: .subtitle,
+                        iconImage: Image(systemName: "newspaper")
+                    )
                 }
             }
         }

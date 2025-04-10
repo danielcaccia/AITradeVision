@@ -22,7 +22,7 @@ struct MarketSummaryCardsView: View {
                 ForEach(items, id: \.0) { item in
                     TradeVisionVStack(spacing: TradeVisionSpacing.xs) {
                         TradeVisionLabel(item.0, type: .title)
-                        TradeVisionLabel(item.1, type: item.2 ? .positive : .negative)
+                        TradeVisionLabel(item.1, type: item.2 ? .success : .error)
                     }
                     .tradeVisionCard()
                 }
