@@ -14,21 +14,27 @@ struct WatchlistPreviewView: View {
         ("TSLA", "$220.12", "-2.10%"),
         ("GOOGL", "$138.55", "+0.45%")
     ]
-
+    
     var body: some View {
-        TradeVisionVStack(alignment: .leading) {
+        TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
             TradeVisionLabel("Watchlist", type: .sectionHeader)
             
-            ForEach(watchlist, id: \.0) { stock in
-                TradeVisionHStack {
-                    TradeVisionLabel(stock.0, type: .title)
-                    Spacer()
-                    TradeVisionLabel(stock.1, type: .title)
-                    TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .error : .success)
+            TradeVisionVStack(spacing: TradeVisionSpacing.md) {
+                ForEach(Array(watchlist.enumerated()), id: \.1.0) { index, stock in
+                    TradeVisionHStack {
+                        TradeVisionLabel(stock.0, type: .title)
+                        Spacer()
+                        TradeVisionLabel(stock.1, type: .title)
+                        TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .error : .success)
+                    }
+                    
+                    if index < watchlist.count - 1 {
+                        TradeVisionDivider()
+                    }
                 }
-                .padding(.vertical, TradeVisionSpacing.xs)
             }
             .tradeVisionCard()
         }
+        .padding(.vertical, TradeVisionSpacing.xs)
     }
 }

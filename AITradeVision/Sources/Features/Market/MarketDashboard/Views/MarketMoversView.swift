@@ -24,8 +24,8 @@ struct MarketMoversView: View {
     @State private var selectedSection: MarketMoversSection = .gainers
     
     var body: some View {
-        TradeVisionVStack(alignment: .leading) {
-            TradeVisionHStack {
+        TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
+            TradeVisionHStack(alignment: .bottom) {
                 TradeVisionLabel("Market Movers", type: .sectionHeader)
                 Spacer()
                 Picker("", selection: $selectedSection) {
@@ -34,29 +34,26 @@ struct MarketMoversView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .padding(.bottom, TradeVisionSpacing.sm)
             }
             
-            TradeVisionVStack(spacing: TradeVisionSpacing.sm) {
-                let isGainers = selectedSection == .gainers
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    TradeVisionHStack {
-                        ForEach(isGainers ? gainers: losers, id: \.0) { item in
-                            TradeVisionHStack {
-                                TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
-                                    TradeVisionLabel(item.0, type: .title)
-                                    TradeVisionLabel("Nome da Empresa", type: .subtitle)
-                                }
-                                Spacer()
-                                TradeVisionLabel(item.1, type: isGainers ? .success : .error)
+            let isGainers = selectedSection == .gainers
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                TradeVisionHStack {
+                    ForEach(isGainers ? gainers: losers, id: \.0) { item in
+                        TradeVisionHStack {
+                            TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
+                                TradeVisionLabel(item.0, type: .title)
+                                TradeVisionLabel("Nome da Empresa", type: .subtitle)
                             }
-                            .transition(.opacity.combined(with: .slide))
-                            .tradeVisionCard()
+                            Spacer()
+                            TradeVisionLabel(item.1, type: isGainers ? .success : .error)
                         }
+                        .transition(.opacity.combined(with: .slide))
+                        .tradeVisionCard()
                     }
-                    .padding(.vertical)
                 }
+                .padding(.vertical, TradeVisionSpacing.xs)
             }
             .animation(.easeInOut(duration: 0.3), value: selectedSection)
         }
