@@ -21,53 +21,44 @@ struct MarketMoversView: View {
         ("AMZN", "-1.93%")
     ]
     
+    @State private var selectedSection: MarketMoversSection = .gainers
+    
     var body: some View {
         TradeVisionVStack(alignment: .leading) {
-            TradeVisionLabel("Market Movers", type: .sectionHeader)
-            
             TradeVisionHStack {
-                TradeVisionVStack(alignment: .leading) {
-                    TradeVisionLabelWithIcon(
-                        "Top Gainers",
-                        type: .title,
-                        iconImage: Image(systemName: "chart.line.uptrend.xyaxis"),
-                        position: .right,
-                        iconColor: .success
-                    )
-                    
-                    ForEach(gainers, id: \.0) { item in
-                        TradeVisionHStack(spacing: TradeVisionSpacing.xs) {
-                            TradeVisionLabel(item.0, type: .title)
-                        }
-                        
-                        Spacer()
-                        
-                        TradeVisionLabel(item.1, type: .success)
+                TradeVisionLabel("Market Movers", type: .sectionHeader)
+                Spacer()
+                Picker("", selection: $selectedSection) {
+                    ForEach(MarketMoversSection.allCases) { section in
+                        Text(section.rawValue).tag(section)
                     }
                 }
+                .pickerStyle(.segmented)
+                .padding(.bottom, TradeVisionSpacing.sm)
+            }
+            
+            TradeVisionVStack(spacing: TradeVisionSpacing.sm) {
+                let isGainers = selectedSection == .gainers
                 
-                Spacer()
-                
-                TradeVisionVStack(alignment: .leading) {
-                    TradeVisionLabelWithIcon(
-                        "Top Losers",
-                        type: .title,
-                        iconImage: Image(systemName: "chart.line.downtrend.xyaxis"),
-                        position: .right,
-                        iconColor: .error
-                    )
-                    
-                    ForEach(losers, id: \.0) { item in
-                        TradeVisionHStack(spacing: TradeVisionSpacing.xs) {
-                            TradeVisionLabel(item.0, type: .title)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    TradeVisionHStack {
+                        ForEach(isGainers ? gainers: losers, id: \.0) { item in
+                            TradeVisionHStack {
+                                TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
+                                    TradeVisionLabel(item.0, type: .title)
+                                    TradeVisionLabel("Nome da Empresa", type: .subtitle)
+                                }
+                                Spacer()
+                                TradeVisionLabel(item.1, type: isGainers ? .success : .error)
+                            }
+                            .transition(.opacity.combined(with: .slide))
+                            .tradeVisionCard()
                         }
-                        
-                        Spacer()
-                        
-                        TradeVisionLabel(item.1, type: .error)
                     }
+                    .padding(.vertical)
                 }
             }
+            .animation(.easeInOut(duration: 0.3), value: selectedSection)
         }
     }
 }

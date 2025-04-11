@@ -20,13 +20,14 @@ struct MarketSummaryCardsView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             TradeVisionHStack {
                 ForEach(items, id: \.0) { item in
-                    TradeVisionVStack(spacing: TradeVisionSpacing.xs) {
-                        TradeVisionLabel(item.0, type: .title)
-                        TradeVisionLabel(item.1, type: item.2 ? .success : .error)
+                    TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
+                        TradeVisionLabel(item.0, type: .title, alignment: .center)
+                        TradeVisionLabel(item.1, type: item.2 ? .success : .error, alignment: .center)
                     }
                     .tradeVisionCard()
                 }
             }
+            .padding(.vertical)
         }
     }
 }
