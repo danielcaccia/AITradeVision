@@ -19,16 +19,27 @@ struct MarketNewsView: View {
         TradeVisionVStack(alignment: .leading) {
             TradeVisionLabel("Latest News", type: .sectionHeader)
 
-            ForEach(news, id: \.self) { item in
-                TradeVisionHStack {
-                    TradeVisionLabelWithIcon(
-                        item,
-                        type: .subtitle,
-                        iconImage: Image(systemName: "newspaper")
-                    )
+            TradeVisionVStack(spacing: TradeVisionSpacing.md) {
+                ForEach(Array(news.enumerated()), id: \.0) { index, item in
+                    TradeVisionHStack {
+                        TradeVisionLabelWithIcon(
+                            item,
+                            type: .subtitle,
+                            iconImage: Image(systemName: "newspaper")
+                        )
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        // Move to news
+                    }
+                    
+                    if index < news.count - 1 {
+                        TradeVisionDivider()
+                    }
                 }
             }
+            .frame(maxWidth: .infinity)
+            .tradeVisionCard()
         }
-        .tradeVisionCard()
     }
 }
