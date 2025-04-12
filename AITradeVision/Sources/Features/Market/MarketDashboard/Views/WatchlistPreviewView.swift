@@ -17,15 +17,26 @@ struct WatchlistPreviewView: View {
     
     var body: some View {
         TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
-            TradeVisionLabel("Watchlist", type: .sectionHeader)
+            TradeVisionHStack(alignment: .bottom) {
+                TradeVisionLabel("Watchlist", type: .sectionHeader)
+                Spacer()
+                TradeVisionButton(type: .secondary("Add")) {
+                    // Action
+                }
+            }
             
             TradeVisionVStack(spacing: TradeVisionSpacing.md) {
                 ForEach(Array(watchlist.enumerated()), id: \.1.0) { index, stock in
                     TradeVisionHStack {
                         TradeVisionLabel(stock.0, type: .title)
                         Spacer()
-                        TradeVisionLabel(stock.1, type: .title)
-                        TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .error : .success)
+                            .frame(maxWidth: .infinity)
+                        TradeVisionLabel(stock.1, type: .title, alignment: .trailing)
+                        TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .error : .success, alignment: .trailing)
+                    }
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        // Move to details
                     }
                     
                     if index < watchlist.count - 1 {
@@ -33,6 +44,7 @@ struct WatchlistPreviewView: View {
                     }
                 }
             }
+            .frame(maxWidth: .infinity)
             .tradeVisionCard()
         }
         .padding(.vertical, TradeVisionSpacing.xs)

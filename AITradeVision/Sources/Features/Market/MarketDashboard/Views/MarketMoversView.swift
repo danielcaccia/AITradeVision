@@ -30,7 +30,7 @@ struct MarketMoversView: View {
                 Spacer()
                 Picker("", selection: $selectedSection) {
                     ForEach(MarketMoversSection.allCases) { section in
-                        Text(section.rawValue).tag(section)
+                        TradeVisionLabel(section.rawValue, type: .subtitle, alignment: .center).tag(section)
                     }
                 }
                 .pickerStyle(.segmented)

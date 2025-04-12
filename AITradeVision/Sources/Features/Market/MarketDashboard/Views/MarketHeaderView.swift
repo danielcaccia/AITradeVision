@@ -15,12 +15,6 @@ struct MarketHeaderView: View {
         TradeVisionHStack(spacing: TradeVisionSpacing.sm) {
             TradeVisionImage(Image(.marketDashboardIcon), type: .headerIcon)
             TradeVisionLabel(title, type: .header)
-//            Spacer()
-//            
-//            Button(action: action) {
-//                Image(systemName: "bell")
-//            }
-//            .buttonStyle(TradeVisionIconButtonStyle())
         }
     }
 }
