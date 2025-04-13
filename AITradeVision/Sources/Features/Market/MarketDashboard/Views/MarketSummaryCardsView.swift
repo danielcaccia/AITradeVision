@@ -27,6 +27,7 @@ struct MarketSummaryCardsView: View {
                     .frame(width: 100)
                     .frame(maxHeight: .infinity)
                     .tradeVisionCard()
+                    .shimmering(isActive: viewModel.isLoading)
                 }
             }
             .padding(.vertical)
