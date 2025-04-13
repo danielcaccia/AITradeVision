@@ -25,7 +25,7 @@ struct MarketDashboardView: View {
             ScrollView {
                 TradeVisionVStack(alignment: .leading) {
                     MarketHeaderView(title: "Market Dashboard")
-                    MarketSummaryCardsView()
+                    MarketSummaryCardsView(viewModel: viewModel)
                     MarketMoversView()
                     WatchlistPreviewView()
                     QuickActionsView()

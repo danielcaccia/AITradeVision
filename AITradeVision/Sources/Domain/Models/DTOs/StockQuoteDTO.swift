@@ -11,14 +11,22 @@ struct StockQuoteDTO: Identifiable, Equatable {
     let id: UUID
     let symbol: String
     let displayName: String
-    let date: String
-    let price: Double
+    let open: Double
+    let dayHigh: Double
+    let dayLow: Double
+    let latestPrice: Double
+    let latestVolume: Double
+    let variation: Double
     
     init(from stock: StockQuote) {
         self.id = UUID()
         self.symbol = stock.symbol
         self.displayName = stock.displayName
-        self.date = stock.date
-        self.price = Double(stock.closePrice)
+        self.open = stock.open
+        self.dayHigh = stock.dayHigh
+        self.dayLow = stock.dayLow
+        self.latestPrice = stock.latestPrice
+        self.latestVolume = stock.latestVolume
+        self.variation = stock.variation
     }
 }

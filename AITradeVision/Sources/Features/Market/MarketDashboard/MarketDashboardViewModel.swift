@@ -9,38 +9,37 @@ import Foundation
 
 @MainActor
 class MarketDashboardViewModel: ObservableObject {
-    @Published var stockPrices: [StockQuoteDTO] = []
-    @Published var selectedStock: String? = nil
+    @Published var marketIndexQuotes: [MarketIndexQuoteDTO] = []
     @Published var isLoading = false
 
     private let stockManager: any StockManagerProtocol
-    private let stockSymbols = ["AAPL", "TSLA", "DIS"]
+    private let marketIndexManager: any MarketIndexManagerProtocol
     
     weak var appCoordinator: AppCoordinator?
     
-    init(stockManager: some StockManagerProtocol, appCoordinator: AppCoordinator? = nil) {
+    init(
+        stockManager: some StockManagerProtocol,
+        marketIndexManager: some MarketIndexManagerProtocol,
+        appCoordinator: AppCoordinator? = nil
+    ) {
         self.stockManager = stockManager
+        self.marketIndexManager = marketIndexManager
         self.appCoordinator = appCoordinator
-        self.selectedStock = stockSymbols.randomElement()
         
         Task {
-            await fetchStockPrices(for: stockSymbols)
+            await fetchIndexesQuotes(for: MarketIndex.allCases.map { $0.symbol })
         }
     }
     
-    private func fetchStockPrices(for symbols: [String]) async {
+    private func fetchIndexesQuotes(for symbols: [String]) async {
         isLoading = true
         defer { isLoading = false }
         
         for symbol in symbols {
-            if let stockDTO = await stockManager.getStockPrice(for: symbol) {
-                stockPrices.append(stockDTO)
+            if let quoteDTO = await marketIndexManager.fetchMarketIndexQuote(for: symbol) {
+                marketIndexQuotes.append(quoteDTO)
             }
         }
-    }
-    
-    func randomSymbol() -> String {
-        return stockSymbols.randomElement() ?? "BA"
     }
     
     func goToSettings() {

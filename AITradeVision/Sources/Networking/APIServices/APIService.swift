@@ -48,6 +48,11 @@ extension APIService {
         }
         
         do {
+            #if DEBUG
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("📦 Raw JSON Response: \(jsonString)")
+            }
+            #endif
             return try JSONDecoder().decode(T.self, from: data)
         } catch let DecodingError.dataCorrupted(context) {
             let message = "Data corrupted: \(context)"

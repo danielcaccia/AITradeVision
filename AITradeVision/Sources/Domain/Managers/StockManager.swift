@@ -9,7 +9,7 @@ import Foundation
 
 protocol StockManagerProtocol {
     func getStockPrice(for symbol: String) async -> StockQuoteDTO?
-    func fetchStockHistory(for symbol: String) async -> [StockQuoteDTO]
+    func fetchStockHistory(for symbol: String) async -> HistoryDTO?
 }
 
 class StockManager: StockManagerProtocol {
@@ -28,9 +28,10 @@ class StockManager: StockManagerProtocol {
             }, errorHandler: errorHandler, context: "StockManager.getStockPrice")
     }
     
-    func fetchStockHistory(for symbol: String) async -> [StockQuoteDTO] {
-        await Task.runWithHandlingArray({
-            return try await self.financeService.fetchStockHistory(for: symbol).map { StockQuoteDTO(from: $0) }
+    func fetchStockHistory(for symbol: String) async -> HistoryDTO? {
+        await Task.runWithHandling({
+            guard let history = try await self.financeService.fetchStockHistory(for: symbol) else { return nil }
+            return HistoryDTO(from: history)
         }, errorHandler: errorHandler, context: "StockManager.fetchStockHistory")
     }
 }

@@ -32,8 +32,9 @@ final class MarketCoordinator: Coordinator, ObservableObject {
         switch route {
         case .marketDashboard:
             let stockManager = StockManager(errorHandler: errorHandler)
+            let marketIndexManager = MarketIndexManager(errorHandler: errorHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
-            let viewModel = MarketDashboardViewModel(stockManager: stockManager, appCoordinator: appCoordinator)
+            let viewModel = MarketDashboardViewModel(stockManager: stockManager, marketIndexManager: marketIndexManager, appCoordinator: appCoordinator)
             MarketDashboardView(alertChecker: alertChecker)
                 .environmentObject(viewModel)
             

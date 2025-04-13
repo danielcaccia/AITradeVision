@@ -9,28 +9,10 @@ struct StockHistoryResponse: Decodable {
     enum CodingKeys: String, CodingKey {
         case symbol
         case displayName = "display_name"
-        case history
+        case historicQuotes = "history"
     }
     
     let symbol: String
     let displayName: String
-    let history: [HistoricQuote]
-}
-
-struct HistoricQuote: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case date
-        case openPrice = "open"
-        case highPrice = "high"
-        case lowPrice = "low"
-        case closePrice = "close"
-        case volume
-    }
-    
-    let date: String
-    let openPrice: Double
-    let highPrice: Double
-    let lowPrice: Double
-    let closePrice: Double
-    let volume: Int
+    let historicQuotes: [HistoricQuote]
 }

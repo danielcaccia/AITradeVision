@@ -8,7 +8,7 @@
 import Foundation
 
 class StockChartViewModel: ObservableObject {
-    @Published var stockHistory: [StockQuoteDTO] = []
+    @Published var stockHistory: HistoryDTO?
     @Published var isLoading = false
     
     private let stockManager: any StockManagerProtocol

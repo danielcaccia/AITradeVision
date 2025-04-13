@@ -9,7 +9,8 @@ import Foundation
 
 protocol FinanceServiceProtocol {
     func fetchStockPrice(for symbol: String) async throws -> StockQuote?
-    func fetchStockHistory(for symbol: String) async throws -> [StockQuote]
+    func fetchStockHistory(for symbol: String) async throws -> History?
+    func fetchMarketIndexQuote(for symbol: String) async throws -> MarketIndexQuote?
 }
 
 class FinanceService: APIService, FinanceServiceProtocol {
@@ -17,10 +18,12 @@ class FinanceService: APIService, FinanceServiceProtocol {
         return try await self.request(endpoint: .fetchStockPrice(symbol: symbol), method: .get)
     }
     
-    func fetchStockHistory(for symbol: String) async throws -> [StockQuote] {
+    func fetchStockHistory(for symbol: String) async throws -> History? {
         let response: StockHistoryResponse = try await self.request(endpoint: .fetchStockHistory(symbol: symbol), method: .get)
-        return response.history
-            .map { StockQuote(symbol: response.symbol, displayName: response.displayName, history: $0) }
-            .sorted { $0.date < $1.date }
+        return History(from: response)
+    }
+    
+    func fetchMarketIndexQuote(for symbol: String) async throws -> MarketIndexQuote? {
+        return try await self.request(endpoint: .fetchMarketIndexQuote(symbol: symbol), method: .get)
     }
 }

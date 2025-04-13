@@ -9,21 +9,23 @@ import SwiftUI
 import TradeVisionUI
 
 struct MarketSummaryCardsView: View {
-    let items = [
-        ("S&P 500", "+1.25%", true),
-        ("Nasdaq", "-0.32%", false),
-        ("Bitcoin", "$62,340", true),
-        ("USD/BRL", "R$ 5,04", true)
-    ]
-
+    @ObservedObject var viewModel: MarketDashboardViewModel
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             TradeVisionHStack {
-                ForEach(items, id: \.0) { item in
+                ForEach(viewModel.marketIndexQuotes) { quote in
                     TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
-                        TradeVisionLabel(item.0, type: .title, alignment: .center)
-                        TradeVisionLabel(item.1, type: item.2 ? .success : .error, alignment: .center)
+                        TradeVisionLabel(
+                            MarketIndex(rawValue: quote.symbol)?.friendlyDisplayName ?? quote.symbol,
+                            type: .title,
+                            alignment: .center
+                        )
+                        .minimumScaleFactor(0.5)
+                        TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .center)
                     }
+                    .frame(width: 100)
+                    .frame(maxHeight: .infinity)
                     .tradeVisionCard()
                 }
             }

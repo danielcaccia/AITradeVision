@@ -40,7 +40,7 @@ class AlertChecker: ObservableObject {
         
         for alert in alertManager.alerts {
             guard let stock = await stockManager.getStockPrice(for: alert.symbol) else { return }
-            let currentPrice = stock.price
+            let currentPrice = stock.latestPrice
             
             let shouldTrigger = alert.isGreaterThan
             ? currentPrice >= alert.targetPrice

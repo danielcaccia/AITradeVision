@@ -27,11 +27,11 @@ struct StockChartView: View {
             if viewModel.isLoading {
                 ProgressView("Carregando informações...")
                         .transition(.opacity)
-            } else {
-                Chart(viewModel.stockHistory) { stock in
+            } else if let history = viewModel.stockHistory?.historicQuotes {
+                Chart(history) { quote in
                     LineMark(
-                        x: .value("Data", stock.date),
-                        y: .value("Preço", stock.price)
+                        x: .value("Data", quote.date),
+                        y: .value("Preço", quote.closePrice)
                     )
                     .interpolationMethod(.catmullRom)
                     .foregroundStyle(.blue)
