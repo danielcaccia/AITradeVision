@@ -10,6 +10,8 @@ import Foundation
 @MainActor
 class MarketDashboardViewModel: ObservableObject {
     @Published var marketIndexQuotes: [MarketIndexQuoteDTO] = []
+    @Published var marketMovers: MarketMoversDTO = MarketMoversDTO(gainers: [], losers: [])
+    @Published var marketTrending: [MarketMoverDTO] = []
     @Published var isLoading = false
 
     private let stockManager: any StockManagerProtocol
@@ -28,6 +30,7 @@ class MarketDashboardViewModel: ObservableObject {
         
         Task {
             await fetchIndexesQuotes(for: MarketIndex.allCases.map { $0.symbol })
+            await fetchMarketMovers()
         }
     }
     
@@ -40,6 +43,14 @@ class MarketDashboardViewModel: ObservableObject {
                 marketIndexQuotes.append(quoteDTO)
             }
         }
+    }
+    
+    private func fetchMarketMovers() async {
+        isLoading = true
+        defer { isLoading = false }
+        
+        marketMovers = await stockManager.fetchMarketMovers()
+        marketTrending = await stockManager.fetchTrendingNow()
     }
     
     func goToSettings() {

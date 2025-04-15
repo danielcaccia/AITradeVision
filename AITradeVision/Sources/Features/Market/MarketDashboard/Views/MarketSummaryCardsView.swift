@@ -14,23 +14,33 @@ struct MarketSummaryCardsView: View {
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             TradeVisionHStack {
-                ForEach(viewModel.marketIndexQuotes) { quote in
-                    TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
-                        TradeVisionLabel(
-                            MarketIndex(rawValue: quote.symbol)?.friendlyDisplayName ?? quote.symbol,
-                            type: .title,
-                            alignment: .center
-                        )
-                        .minimumScaleFactor(0.5)
-                        TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .center)
+                if viewModel.isLoading {
+                    marketSummaryCard(for: nil)
+                    marketSummaryCard(for: nil)
+                    marketSummaryCard(for: nil)
+                } else {
+                    ForEach(viewModel.marketIndexQuotes) { quote in
+                        marketSummaryCard(for: quote)
                     }
-                    .frame(width: 100)
-                    .frame(maxHeight: .infinity)
-                    .tradeVisionCard()
-                    .shimmering(isActive: viewModel.isLoading)
                 }
             }
             .padding(.vertical)
         }
+    }
+    
+    private func marketSummaryCard(for quote: MarketIndexQuoteDTO?) -> some View {
+        TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
+            TradeVisionLabel(
+                MarketIndex(rawValue: quote?.symbol ?? "Placeholder")?.friendlyDisplayName ?? quote?.symbol ?? "Placeholder",
+                type: .title,
+                alignment: .center
+            )
+            .minimumScaleFactor(0.5)
+            TradeVisionLabel("\(quote?.variation.toString(decimals: 2) ?? "0.00")%", type: quote?.variation.labelType ?? .success, alignment: .center)
+        }
+        .frame(width: 100)
+        .frame(maxHeight: .infinity)
+        .tradeVisionCard()
+        .shimmering(isActive: viewModel.isLoading)
     }
 }

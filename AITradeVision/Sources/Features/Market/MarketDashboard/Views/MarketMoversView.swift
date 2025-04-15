@@ -9,53 +9,64 @@ import SwiftUI
 import TradeVisionUI
 
 struct MarketMoversView: View {
-    let gainers = [
-        ("AAPL", "+3.12%"),
-        ("NVDA", "+2.77%"),
-        ("TSLA", "+2.30%")
-    ]
-    
-    let losers = [
-        ("NFLX", "-4.15%"),
-        ("META", "-2.84%"),
-        ("AMZN", "-1.93%")
-    ]
-    
-    @State private var selectedSection: MarketMoversSection = .gainers
+    @ObservedObject var viewModel: MarketDashboardViewModel
+    @State private var selectedSection: MarketMoversSection = .trending
     
     var body: some View {
         TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
-            TradeVisionHStack(alignment: .bottom) {
+            TradeVisionVStack(alignment: .leading) {
                 TradeVisionLabel("Market Movers", type: .sectionHeader)
-                Spacer()
                 Picker("", selection: $selectedSection) {
                     ForEach(MarketMoversSection.allCases) { section in
-                        TradeVisionLabel(section.rawValue, type: .subtitle, alignment: .center).tag(section)
+                        TradeVisionLabel(section.title, type: .subtitle, alignment: .center).tag(section)
                     }
                 }
+                .frame(maxWidth: .infinity)
                 .pickerStyle(.segmented)
             }
-            
-            let isGainers = selectedSection == .gainers
-            
+                        
             ScrollView(.horizontal, showsIndicators: false) {
                 TradeVisionHStack {
-                    ForEach(isGainers ? gainers: losers, id: \.0) { item in
-                        TradeVisionHStack {
-                            TradeVisionVStack(alignment: .center, spacing: TradeVisionSpacing.xs) {
-                                TradeVisionLabel(item.0, type: .title)
-                                TradeVisionLabel("Nome da Empresa", type: .subtitle)
+                    if viewModel.isLoading {
+                        marketMoverCard(mover: nil)
+                        marketMoverCard(mover: nil)
+                        marketMoverCard(mover: nil)
+                    } else {
+                        switch selectedSection {
+                        case .trending:
+                            ForEach(viewModel.marketTrending) { mover in
+                                marketMoverCard(mover: mover)
                             }
-                            Spacer()
-                            TradeVisionLabel(item.1, type: isGainers ? .success : .error)
+                        case .gainers:
+                            ForEach(viewModel.marketMovers.gainers) { mover in
+                                marketMoverCard(mover: mover)
+                            }
+                        case .losers:
+                            ForEach(viewModel.marketMovers.losers) { mover in
+                                marketMoverCard(mover: mover)
+                            }
                         }
-                        .transition(.opacity.combined(with: .slide))
-                        .tradeVisionCard()
                     }
                 }
                 .padding(.vertical, TradeVisionSpacing.xs)
             }
             .animation(.easeInOut(duration: 0.3), value: selectedSection)
         }
+    }
+    
+    private func marketMoverCard(mover: MarketMoverDTO?) -> some View {
+        TradeVisionHStack {
+            TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.xs) {
+                TradeVisionLabel(mover?.symbol ?? "Placeholder", type: .title)
+                TradeVisionLabel(mover?.displayName ?? "Placeholder", type: .subtitle)
+                    .lineLimit(1, reservesSpace: true)
+                    .truncationMode(.tail)
+            }
+            TradeVisionLabel("\(mover?.variation.toString(decimals: 2) ?? "0.00")%", type: mover?.variation.labelType ?? .success, alignment: .trailing)
+        }
+        .frame(width: 220)
+        .transition(.opacity.combined(with: .slide))
+        .shimmering(isActive: viewModel.isLoading)
+        .tradeVisionCard()
     }
 }

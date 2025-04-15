@@ -8,8 +8,20 @@
 import Foundation
 
 enum MarketMoversSection: String, CaseIterable, Identifiable {
-    case gainers = "Top Gainers"
-    case losers = "Top Losers"
+    case trending = "TRENDING_NOW"
+    case gainers = "TOP_GAINERS"
+    case losers = "TOP_LOSERS"
     
     var id: String { self.rawValue }
+    
+    var title: String {
+        switch self {
+        case .trending:
+            "Trending Now"
+        case .gainers:
+            "Top Gainers"
+        case .losers:
+            "Top Losers"
+        }
+    }
 }
