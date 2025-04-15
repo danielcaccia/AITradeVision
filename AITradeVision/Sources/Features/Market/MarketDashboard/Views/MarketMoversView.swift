@@ -60,9 +60,13 @@ struct MarketMoversView: View {
                 TradeVisionLabel(mover?.symbol ?? "Placeholder", type: .title)
                 TradeVisionLabel(mover?.displayName ?? "Placeholder", type: .subtitle)
                     .lineLimit(1, reservesSpace: true)
+                    .minimumScaleFactor(0.8)
                     .truncationMode(.tail)
             }
+            .layoutPriority(1)
+            
             TradeVisionLabel("\(mover?.variation.toString(decimals: 2) ?? "0.00")%", type: mover?.variation.labelType ?? .success, alignment: .trailing)
+                .fixedSize()
         }
         .frame(width: 220)
         .transition(.opacity.combined(with: .slide))
