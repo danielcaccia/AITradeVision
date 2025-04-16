@@ -9,11 +9,19 @@ import SwiftUI
 import TradeVisionUI
 
 struct WatchlistPreviewView: View {
-    let watchlist = [
-        ("AAPL", "$174.03", "+1.23%"),
-        ("TSLA", "$220.12", "-2.10%"),
-        ("GOOGL", "$138.55", "+0.45%")
-    ]
+    @EnvironmentObject var coordinator: MarketCoordinator
+    
+    @ObservedObject var viewModel: MarketDashboardViewModel
+    
+    @State private var watchlist: [StockQuoteDTO] = [
+        StockQuoteDTO(from: StockQuote(symbol: "AAPL", displayName: "Apple1", open: 1, dayHigh: 5, dayLow: 0.8, latestPrice: 4, latestVolume: 100, variation: 2.0)),
+        StockQuoteDTO(from: StockQuote(symbol: "AAPL", displayName: "Apple2", open: 1, dayHigh: 5, dayLow: 0.8, latestPrice: 4, latestVolume: 100, variation: 2.0)),
+        StockQuoteDTO(from: StockQuote(symbol: "AAPL", displayName: "Apple3", open: 1, dayHigh: 5, dayLow: 0.8, latestPrice: 4, latestVolume: 100, variation: 2.0)),
+        StockQuoteDTO(from: StockQuote(symbol: "AAPL", displayName: "Apple4", open: 1, dayHigh: 5, dayLow: 0.8, latestPrice: 4, latestVolume: 100, variation: 2.0))
+        ]
+    
+    @State private var showingAddSheet = false
+    @State private var navigationSelection: String?
     
     var body: some View {
         TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
@@ -21,22 +29,22 @@ struct WatchlistPreviewView: View {
                 TradeVisionLabel("Watchlist", type: .sectionHeader)
                 Spacer()
                 TradeVisionButton(type: .secondary("Add")) {
-                    // Action
+                    showingAddSheet = true
                 }
             }
             
             TradeVisionVStack(spacing: TradeVisionSpacing.md) {
-                ForEach(Array(watchlist.enumerated()), id: \.1.0) { index, stock in
+                ForEach(Array(watchlist.enumerated()), id: \.1.id) { index, quote in
                     TradeVisionHStack {
-                        TradeVisionLabel(stock.0, type: .title)
+                        TradeVisionLabel(quote.symbol, type: .title)
                         Spacer()
                             .frame(maxWidth: .infinity)
-                        TradeVisionLabel(stock.1, type: .title, alignment: .trailing)
-                        TradeVisionLabel(stock.2, type: stock.2.contains("-") ? .error : .success, alignment: .trailing)
+                        TradeVisionLabel(quote.latestPrice.toString(decimals: 2), type: .title, alignment: .trailing)
+                        TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .trailing)
                     }
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        // Move to details
+                        coordinator.route = .stockDetail(stock: quote)
                     }
                     
                     if index < watchlist.count - 1 {
@@ -48,5 +56,8 @@ struct WatchlistPreviewView: View {
             .tradeVisionCard()
         }
         .padding(.vertical, TradeVisionSpacing.xs)
+        .sheet(isPresented: $showingAddSheet) {
+            AddStockSheet(watchlist: $watchlist)
+        }
     }
 }

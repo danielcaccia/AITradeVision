@@ -10,6 +10,7 @@ import TradeVisionUI
 
 struct MarketMoversView: View {
     @ObservedObject var viewModel: MarketDashboardViewModel
+    
     @State private var selectedSection: MarketMoversSection = .trending
     
     var body: some View {

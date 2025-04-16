@@ -53,6 +53,8 @@ class MarketDashboardViewModel: ObservableObject {
         marketTrending = await stockManager.fetchTrendingNow()
     }
     
+    //MARK: - Change Flow
+    
     func goToSettings() {
         appCoordinator?.currentFlow = .settings
     }

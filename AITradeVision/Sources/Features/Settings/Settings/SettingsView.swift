@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SettingsView: View {
     @EnvironmentObject private var viewModel: SettingsViewModel
-    @EnvironmentObject var coordinator: SettingsCoordinator
     
     @State private var showingPaywall = false
     @State private var showRemoveAds = false

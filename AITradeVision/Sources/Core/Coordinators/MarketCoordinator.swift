@@ -17,6 +17,7 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     
     enum MarketRoute: Equatable {
         case marketDashboard
+        case stockDetail(stock: StockQuoteDTO)
         case sentimentAnalysis(stockSymbol: String)
         case stockHistory(stockSymbol: String)
     }
@@ -34,20 +35,34 @@ final class MarketCoordinator: Coordinator, ObservableObject {
             let stockManager = StockManager(errorHandler: errorHandler)
             let marketIndexManager = MarketIndexManager(errorHandler: errorHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
-            let viewModel = MarketDashboardViewModel(stockManager: stockManager, marketIndexManager: marketIndexManager, appCoordinator: appCoordinator)
+            let viewModel = MarketDashboardViewModel(
+                stockManager: stockManager,
+                marketIndexManager: marketIndexManager,
+                appCoordinator: appCoordinator
+            )
+            
             MarketDashboardView(alertChecker: alertChecker)
+                .environmentObject(viewModel)
+        
+        case .stockDetail(let stock):
+            let stockManager = StockManager(errorHandler: errorHandler)
+            let viewModel = StockDetailsViewModel(symbol: stock.symbol, stockManager: stockManager)
+            
+            StockDetailsView(stock: stock)
                 .environmentObject(viewModel)
             
         case .sentimentAnalysis(let symbol):
             let newsManager = NewsManager(errorHandler: errorHandler)
             let sentimentManager = SentimentManager(errorHandler: errorHandler)
             let viewModel = MarketSentimentViewModel(newsManager: newsManager, sentimentManager: sentimentManager)
+            
             MarketSentimentView(stockSymbol: symbol)
                 .environmentObject(viewModel)
             
         case .stockHistory(let symbol):
             let stockManager = StockManager(errorHandler: errorHandler)
             let viewModel = StockChartViewModel(stockManager: stockManager)
+            
             StockChartView(stockSymbol: symbol)
                 .environmentObject(viewModel)
         }

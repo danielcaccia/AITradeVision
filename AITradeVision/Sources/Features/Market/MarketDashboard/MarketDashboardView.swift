@@ -27,7 +27,7 @@ struct MarketDashboardView: View {
                     MarketHeaderView(title: "Market Dashboard")
                     MarketSummaryCardsView(viewModel: viewModel)
                     MarketMoversView(viewModel: viewModel)
-                    WatchlistPreviewView()
+                    WatchlistPreviewView(viewModel: viewModel)
                     QuickActionsView()
                     MarketNewsView()
                 }
