@@ -25,19 +25,19 @@ struct MarketDashboardView: View {
             ScrollView {
                 TradeVisionVStack(alignment: .leading) {
                     MarketHeaderView(title: "Market Dashboard")
-                    MarketSummaryCardsView(viewModel: viewModel)
+                    MarketSummaryView(viewModel: viewModel)
                     MarketMoversView(viewModel: viewModel)
-                    WatchlistPreviewView(viewModel: viewModel)
+                    WatchlistView(viewModel: viewModel)
                     QuickActionsView()
                     MarketNewsView()
                 }
                 .padding()
             }
-            .tradeVisionBackground(.primaryBackground)
             .tradeNavigationBar(title: "AITradeVision")
             .withSettingsButton(action: viewModel.goToSettings)
+            .tradeVisionBackground(.primaryBackground)
             .sheet(isPresented: $showAddAlert) {
-                AddPriceAlertView()
+                AddPriceAlertSheet()
             }
         }
     }

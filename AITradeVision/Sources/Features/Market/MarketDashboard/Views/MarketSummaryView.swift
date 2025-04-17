@@ -1,5 +1,5 @@
 //
-//  MarketSummaryCardsView.swift
+//  MarketSummaryView.swift
 //  AITradeVision
 //
 //  Created by Daniel Caccia on 08/04/25.
@@ -8,13 +8,13 @@
 import SwiftUI
 import TradeVisionUI
 
-struct MarketSummaryCardsView: View {
+struct MarketSummaryView: View {
     @ObservedObject var viewModel: MarketDashboardViewModel
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             TradeVisionHStack {
-                if viewModel.isLoading {
+                if viewModel.isLoadingSummary && viewModel.marketIndexQuotes.isEmpty {
                     marketSummaryCard(for: nil)
                     marketSummaryCard(for: nil)
                     marketSummaryCard(for: nil)
@@ -41,6 +41,6 @@ struct MarketSummaryCardsView: View {
         .frame(width: 100)
         .frame(maxHeight: .infinity)
         .tradeVisionCard()
-        .shimmering(isActive: viewModel.isLoading)
+        .shimmering(isActive: viewModel.isLoadingSummary && viewModel.marketIndexQuotes.isEmpty)
     }
 }

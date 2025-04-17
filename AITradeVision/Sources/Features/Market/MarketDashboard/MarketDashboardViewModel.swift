@@ -5,25 +5,36 @@
 //  Created by Daniel Caccia on 02/04/25.
 //
 
-import Foundation
+import SwiftUI
 
 @MainActor
 class MarketDashboardViewModel: ObservableObject {
+    //MARK: - Properties
+        
     @Published var marketIndexQuotes: [MarketIndexQuoteDTO] = []
-    @Published var marketMovers: MarketMoversDTO = MarketMoversDTO(gainers: [], losers: [])
     @Published var marketTrending: [MarketMoverDTO] = []
-    @Published var isLoading = false
+    @Published var marketMovers: MarketMoversDTO = MarketMoversDTO(gainers: [], losers: [])
+    @Published var watchlist: [StockQuoteDTO] = []
+    
+    @Published var isLoadingSummary = false
+    @Published var isLoadingMovers = false
+    @Published var isLoadingWatchlist = false
 
+    private let watchlistManager: WatchlistManager
     private let stockManager: any StockManagerProtocol
     private let marketIndexManager: any MarketIndexManagerProtocol
     
     weak var appCoordinator: AppCoordinator?
     
+    //MARK: - Init
+    
     init(
+        watchlistManager: WatchlistManager,
         stockManager: some StockManagerProtocol,
         marketIndexManager: some MarketIndexManagerProtocol,
         appCoordinator: AppCoordinator? = nil
     ) {
+        self.watchlistManager = watchlistManager
         self.stockManager = stockManager
         self.marketIndexManager = marketIndexManager
         self.appCoordinator = appCoordinator
@@ -31,12 +42,15 @@ class MarketDashboardViewModel: ObservableObject {
         Task {
             await fetchIndexesQuotes(for: MarketIndex.allCases.map { $0.symbol })
             await fetchMarketMovers()
+            await fetchWatchlist()
         }
     }
     
+    //MARK: - Fetch Data
+    
     private func fetchIndexesQuotes(for symbols: [String]) async {
-        isLoading = true
-        defer { isLoading = false }
+        isLoadingSummary = true
+        defer { isLoadingSummary = false }
         
         for symbol in symbols {
             if let quoteDTO = await marketIndexManager.fetchMarketIndexQuote(for: symbol) {
@@ -46,11 +60,22 @@ class MarketDashboardViewModel: ObservableObject {
     }
     
     private func fetchMarketMovers() async {
-        isLoading = true
-        defer { isLoading = false }
+        isLoadingMovers = true
+        defer { isLoadingMovers = false }
         
-        marketMovers = await stockManager.fetchMarketMovers()
         marketTrending = await stockManager.fetchTrendingNow()
+        marketMovers = await stockManager.fetchMarketMovers()
+    }
+    
+    private func fetchWatchlist() async {
+        isLoadingWatchlist = true
+        defer { isLoadingWatchlist = false }
+        
+        for symbol in watchlistManager.symbols {
+            if let quote = await stockManager.getStockPrice(for: symbol) {
+                watchlist.append(quote)
+            }
+        }
     }
     
     //MARK: - Change Flow
@@ -67,7 +92,7 @@ class MarketDashboardViewModel: ObservableObject {
                 appCoordinator?.currentFlow = .auth
             }
         } catch {
-            print("Erro ao deslogar: \(error.localizedDescription)")
+            print("Error trying to logout: \(error.localizedDescription)")
         }
     }
 }

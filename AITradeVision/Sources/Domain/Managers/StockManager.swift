@@ -14,7 +14,7 @@ protocol StockManagerProtocol {
     func fetchTrendingNow() async -> [MarketMoverDTO]
 }
 
-class StockManager: StockManagerProtocol {
+class StockManager: StockManagerProtocol, ObservableObject {
     private let financeService: any FinanceServiceProtocol
     private let errorHandler: any ErrorHandler
     

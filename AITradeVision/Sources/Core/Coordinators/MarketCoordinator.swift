@@ -32,10 +32,12 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     func buildCurrentView(for route: MarketRoute) -> some View {
         switch route {
         case .marketDashboard:
+            let watchlistManager = WatchlistManager()
             let stockManager = StockManager(errorHandler: errorHandler)
             let marketIndexManager = MarketIndexManager(errorHandler: errorHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
             let viewModel = MarketDashboardViewModel(
+                watchlistManager: watchlistManager,
                 stockManager: stockManager,
                 marketIndexManager: marketIndexManager,
                 appCoordinator: appCoordinator

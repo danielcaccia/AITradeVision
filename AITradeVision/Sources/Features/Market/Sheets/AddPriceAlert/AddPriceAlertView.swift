@@ -1,5 +1,5 @@
 //
-//  AddPriceAlertView.swift
+//  AddPriceAlertSheet.swift
 //  AITradeVision
 //
 //  Created by Daniel Caccia on 05/04/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddPriceAlertView: View {
+struct AddPriceAlertSheet: View {
     @ObservedObject private var viewModel = AddPriceAlertViewModel()
     
     @Environment(\.dismiss) var dismiss
@@ -52,8 +52,8 @@ struct AddPriceAlertView: View {
     }
 }
 
-//struct AddPriceAlertView_Previews: PreviewProvider {
+//struct AddPriceAlertSheet_Previews: PreviewProvider {
 //    static var previews: some View {
-//        AddPriceAlertView()
+//        AddPriceAlertSheet()
 //    }
 //}

@@ -25,10 +25,10 @@ struct MarketMoversView: View {
                 .frame(maxWidth: .infinity)
                 .pickerStyle(.segmented)
             }
-                        
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 TradeVisionHStack {
-                    if viewModel.isLoading {
+                    if viewModel.isLoadingMovers {
                         marketMoverCard(mover: nil)
                         marketMoverCard(mover: nil)
                         marketMoverCard(mover: nil)
@@ -71,7 +71,7 @@ struct MarketMoversView: View {
         }
         .frame(width: 220)
         .transition(.opacity.combined(with: .slide))
-        .shimmering(isActive: viewModel.isLoading)
+        .shimmering(isActive: viewModel.isLoadingMovers)
         .tradeVisionCard()
     }
 }
