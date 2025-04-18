@@ -9,7 +9,7 @@ import SwiftUI
 import TradeVisionUI
 
 struct AddStockToWatchlistSheet: View {
-    @EnvironmentObject var watchlistManager: WatchlistManager
+    @ObservedObject var viewModel: MarketDashboardViewModel
     
     @Environment(\.dismiss) var dismiss
         
@@ -21,7 +21,7 @@ struct AddStockToWatchlistSheet: View {
                 TextField("Stock Symbol (ex: AAPL)", text: $newSymbol)
                 
                 TradeVisionButton(type: .primary("Add to Watchlist")) {
-                    watchlistManager.tryAddSymbol(newSymbol)
+                    viewModel.tryAddSymbol(newSymbol)
                     dismiss()
                 }
                 .disabled(newSymbol.isEmpty)

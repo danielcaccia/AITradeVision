@@ -11,7 +11,7 @@ import SwiftUI
 final class SettingsCoordinator: Coordinator, ObservableObject {
     @Published var route: SettingsRoute = .settings
     
-    private let errorHandler = DefaultErrorHandler()
+    private let errorHandler = NetworkingErrorHandler()
     
     weak var appCoordinator: AppCoordinator!
     

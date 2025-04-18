@@ -11,7 +11,7 @@ import SwiftUI
 final class AuthCoordinator: Coordinator, ObservableObject {
     @Published var route: AuthRoute = .login
     
-    private let errorHandler = DefaultErrorHandler()
+    private let errorHandler = NetworkingErrorHandler()
     
     weak var appCoordinator: AppCoordinator!
     

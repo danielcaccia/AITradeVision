@@ -71,7 +71,7 @@ struct MarketMoversView: View {
         }
         .frame(width: 220)
         .transition(.opacity.combined(with: .slide))
-        .shimmering(isActive: viewModel.isLoadingMovers)
         .tradeVisionCard()
+        .shimmering(isActive: viewModel.isLoadingMovers)
     }
 }

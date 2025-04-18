@@ -78,6 +78,14 @@ class MarketDashboardViewModel: ObservableObject {
         }
     }
     
+    //MARK: - Watchlist Handlers
+    
+    func tryAddSymbol(_ symbol: String) {
+        Task {
+            await watchlistManager.add(symbol: symbol)
+        }
+    }
+    
     //MARK: - Change Flow
     
     func goToSettings() {

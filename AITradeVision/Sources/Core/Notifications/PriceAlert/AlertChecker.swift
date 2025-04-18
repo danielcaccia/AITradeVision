@@ -21,7 +21,7 @@ class AlertChecker: ObservableObject {
     
     init(
         alertManager: some PriceAlertManager = PriceAlertManager(),
-        stockManager: some StockManagerProtocol = StockManager(errorHandler: DefaultErrorHandler())
+        stockManager: some StockManagerProtocol = StockManager(errorHandler: NetworkingErrorHandler())
     ) {
         self.alertManager = alertManager
         self.stockManager = stockManager

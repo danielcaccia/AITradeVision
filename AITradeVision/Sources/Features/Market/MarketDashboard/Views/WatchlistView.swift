@@ -59,7 +59,7 @@ struct WatchlistView: View {
         }
         .padding(.vertical, TradeVisionSpacing.xs)
         .sheet(isPresented: $showingAddSheet) {
-            AddStockToWatchlistSheet()
+            AddStockToWatchlistSheet(viewModel: viewModel)
         }
     }
 }

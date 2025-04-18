@@ -8,13 +8,15 @@
 import SwiftUI
 
 class WatchlistManager: ObservableObject {
-    @EnvironmentObject var stockManager: StockManager
-    
     @Published var symbols: [String] = []
     
     private let key = "WATCHLIST_SYMBOLS"
+    private let financeService: any FinanceServiceProtocol
+    private let errorHandler: any ErrorHandler
     
-    init() {
+    init(financeService: some FinanceServiceProtocol = FinanceService(), errorHandler: some ErrorHandler) {
+        self.financeService = financeService
+        self.errorHandler = errorHandler
         load()
     }
     
@@ -24,37 +26,23 @@ class WatchlistManager: ObservableObject {
     
     private func save() {
         UserDefaults.standard.set(symbols, forKey: key)
+        load()
     }
     
-    func add(symbol: String) {
-        let cleanSymbol = symbol.uppercased()
-        
-        guard !symbols.contains(cleanSymbol) else { return }
-        
-        symbols.append(cleanSymbol)
-        save()
+    private func validateSymbolExists(_ symbol: String) async throws -> Bool {
+        return try await financeService.fetchStockPrice(for: symbol).isNotNil
     }
     
-    func tryAddSymbol(_ symbol: String) {
-        let cleanSymbol = symbol.uppercased()
-        
-        guard !symbols.contains(cleanSymbol) else {
-//            showErrorMessage = "Esse ativo já está na sua watchlist."
-            return
-        }
-
-        Task { @MainActor in
-            guard await validateSymbolExists(cleanSymbol) else {
-//                self.showErrorMessage = "Símbolo inválido: \(cleanSymbol)"
-                return
-            }
+    func add(symbol: String) async {
+        await Task.runWithHandling({
+            let cleanSymbol = symbol.uppercased()
             
-            save()
-        }
-    }
-    
-    func validateSymbolExists(_ symbol: String) async -> Bool {
-        return await stockManager.getStockPrice(for: symbol).isNotNil
+            guard !self.symbols.contains(cleanSymbol) else { throw WatchlistError.symbolAlreadyOnTheList }
+            guard try await self.validateSymbolExists(symbol) else { throw WatchlistError.symbolDoesNotExist }
+            
+            self.symbols.append(cleanSymbol)
+            self.save()
+        }, errorHandler: errorHandler, context: "WatchlistManager.add")
     }
     
     func remove(symbol: String) {

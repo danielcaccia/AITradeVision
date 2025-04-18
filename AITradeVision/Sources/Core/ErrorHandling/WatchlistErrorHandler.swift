@@ -1,25 +1,19 @@
 //
-//  DefaultErrorHandler.swift
+//  WatchlistErrorHandler.swift
 //  AITradeVision
 //
-//  Created by Daniel Caccia on 05/04/25.
+//  Created by Daniel Caccia on 19/04/25.
 //
 
 import Foundation
 import os
 
-final class DefaultErrorHandler: ErrorHandler {
+final class WatchlistErrorHandler: ErrorHandler {
     private let logger = Logger(subsystem: "com.danielcaccia.AITradeVision", category: "ErrorHandler")
 
     func handle(_ error: Error, context: String? = nil) {
         let message = "[Erro] \(context ?? "sem contexto"): \(error.localizedDescription)"
         logger.error("\(message, privacy: .public)")
-
-        // Analytics (exemplo)
-        // Analytics.logEvent("error_occurred", parameters: [
-        //     "context": context ?? "unknown",
-        //     "error": error.localizedDescription
-        // ])
 
         if let userMessage = userFriendlyMessage(error) {
             showToast(userMessage)
@@ -31,19 +25,8 @@ final class DefaultErrorHandler: ErrorHandler {
     }
 
     private func userFriendlyMessage(_ error: Error) -> String? {
-        if let urlError = error as? URLError {
-            switch urlError.code {
-            case .notConnectedToInternet:
-                return "No connection to the internet."
-            case .timedOut:
-                return "Request timeout."
-            default:
-                return "Network error: \(urlError.localizedDescription)"
-            }
-        }
-
-        if let apiError = error as? APIError {
-            return apiError.friendlyDescription
+        if let watchlistError = error as? WatchlistError {
+            return watchlistError.friendlyDescription
         }
 
         return nil

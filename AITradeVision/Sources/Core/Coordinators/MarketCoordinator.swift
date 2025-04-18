@@ -11,7 +11,8 @@ import SwiftUI
 final class MarketCoordinator: Coordinator, ObservableObject {
     @Published var route: MarketRoute = .marketDashboard
     
-    private let errorHandler = DefaultErrorHandler()
+    private let networkingHandler = NetworkingErrorHandler()
+    private let watchlistHandler = WatchlistErrorHandler()
     
     weak var appCoordinator: AppCoordinator!
     
@@ -32,9 +33,9 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     func buildCurrentView(for route: MarketRoute) -> some View {
         switch route {
         case .marketDashboard:
-            let watchlistManager = WatchlistManager()
-            let stockManager = StockManager(errorHandler: errorHandler)
-            let marketIndexManager = MarketIndexManager(errorHandler: errorHandler)
+            let watchlistManager = WatchlistManager(errorHandler: watchlistHandler)
+            let stockManager = StockManager(errorHandler: networkingHandler)
+            let marketIndexManager = MarketIndexManager(errorHandler: networkingHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
             let viewModel = MarketDashboardViewModel(
                 watchlistManager: watchlistManager,
@@ -47,22 +48,22 @@ final class MarketCoordinator: Coordinator, ObservableObject {
                 .environmentObject(viewModel)
         
         case .stockDetail(let stock):
-            let stockManager = StockManager(errorHandler: errorHandler)
+            let stockManager = StockManager(errorHandler: networkingHandler)
             let viewModel = StockDetailsViewModel(symbol: stock.symbol, stockManager: stockManager)
             
             StockDetailsView(stock: stock)
                 .environmentObject(viewModel)
             
         case .sentimentAnalysis(let symbol):
-            let newsManager = NewsManager(errorHandler: errorHandler)
-            let sentimentManager = SentimentManager(errorHandler: errorHandler)
+            let newsManager = NewsManager(errorHandler: networkingHandler)
+            let sentimentManager = SentimentManager(errorHandler: networkingHandler)
             let viewModel = MarketSentimentViewModel(newsManager: newsManager, sentimentManager: sentimentManager)
             
             MarketSentimentView(stockSymbol: symbol)
                 .environmentObject(viewModel)
             
         case .stockHistory(let symbol):
-            let stockManager = StockManager(errorHandler: errorHandler)
+            let stockManager = StockManager(errorHandler: networkingHandler)
             let viewModel = StockChartViewModel(stockManager: stockManager)
             
             StockChartView(stockSymbol: symbol)
