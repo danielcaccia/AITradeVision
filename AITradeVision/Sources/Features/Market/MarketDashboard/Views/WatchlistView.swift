@@ -26,25 +26,28 @@ struct WatchlistView: View {
                 }
             }
             
-            TradeVisionVStack(spacing: TradeVisionSpacing.md) {
+            TradeVisionVStack(spacing: TradeVisionSpacing.zero) {
                 if viewModel.isLoadingWatchlist {
                     ProgressView("Carregando transações...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
                 } else if viewModel.watchlist.isEmpty {
                     TradeVisionLabel("Sua watchlist está vazia.", type: .subtitle, alignment: .center)
+                        .padding()
                 } else {
                     ForEach(Array(viewModel.watchlist.enumerated()), id: \.1.id) { index, quote in
-                        TradeVisionHStack {
-                            TradeVisionLabel(quote.symbol, type: .title)
-                            Spacer()
-                                .frame(maxWidth: .infinity)
-                            TradeVisionLabel(quote.latestPrice.toString(decimals: 2), type: .title, alignment: .trailing)
-                            TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .trailing)
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
+                        TradeVisionSwipeableRow {
+                            viewModel.removeSymbol(quote.symbol)
+                        } onTap: {
                             coordinator.route = .stockDetail(stock: quote)
+                        } content: {
+                            TradeVisionHStack {
+                                TradeVisionLabel(quote.symbol, type: .title)
+                                Spacer()
+                                    .frame(maxWidth: .infinity)
+                                TradeVisionLabel(quote.latestPrice.toString(decimals: 2), type: .title, alignment: .trailing)
+                                TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .trailing)
+                            }
                         }
                         
                         if index < viewModel.watchlist.count - 1 {
@@ -54,7 +57,7 @@ struct WatchlistView: View {
                 }
             }
             .frame(maxWidth: .infinity)
-            .tradeVisionCard()
+            .tradeVisionCard(padding: TradeVisionSpacing.zero)
         }
         .padding(.vertical, TradeVisionSpacing.xs)
         .sheet(isPresented: $showingAddSheet) {

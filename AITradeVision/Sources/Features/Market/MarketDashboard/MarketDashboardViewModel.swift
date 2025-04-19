@@ -99,6 +99,13 @@ class MarketDashboardViewModel: ObservableObject {
         }
     }
     
+    func removeSymbol(_ symbol: String) {
+        Task {
+            watchlistManager.remove(symbol: symbol)
+            await fetchWatchlist()
+        }
+    }
+    
     //MARK: - Change Flow
     
     func goToSettings() {
