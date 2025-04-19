@@ -26,7 +26,6 @@ class WatchlistManager: ObservableObject {
     
     private func save() {
         UserDefaults.standard.set(symbols, forKey: key)
-        load()
     }
     
     private func validateSymbolExists(_ symbol: String) async throws -> Bool {
@@ -38,7 +37,7 @@ class WatchlistManager: ObservableObject {
             let cleanSymbol = symbol.uppercased()
             
             guard !self.symbols.contains(cleanSymbol) else { throw WatchlistError.symbolAlreadyOnTheList }
-            guard try await self.validateSymbolExists(symbol) else { throw WatchlistError.symbolDoesNotExist }
+            guard try await self.validateSymbolExists(cleanSymbol) else { throw WatchlistError.symbolDoesNotExist }
             
             self.symbols.append(cleanSymbol)
             self.save()

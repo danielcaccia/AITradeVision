@@ -9,9 +9,9 @@ import SwiftUI
 import TradeVisionUI
 
 struct AddStockToWatchlistSheet: View {
-    @ObservedObject var viewModel: MarketDashboardViewModel
-    
     @Environment(\.dismiss) var dismiss
+    
+    @ObservedObject var viewModel: MarketDashboardViewModel
         
     @State private var newSymbol: String = ""
 

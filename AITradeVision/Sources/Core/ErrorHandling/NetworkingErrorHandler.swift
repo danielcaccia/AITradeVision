@@ -12,14 +12,8 @@ final class NetworkingErrorHandler: ErrorHandler {
     private let logger = Logger(subsystem: "com.danielcaccia.AITradeVision", category: "ErrorHandler")
 
     func handle(_ error: Error, context: String? = nil) {
-        let message = "[Erro] \(context ?? "sem contexto"): \(error.localizedDescription)"
+        let message = "[Error] \(context ?? "sem contexto"): \(error.localizedDescription)"
         logger.error("\(message, privacy: .public)")
-
-        // Analytics (exemplo)
-        // Analytics.logEvent("error_occurred", parameters: [
-        //     "context": context ?? "unknown",
-        //     "error": error.localizedDescription
-        // ])
 
         if let userMessage = userFriendlyMessage(error) {
             showToast(userMessage)

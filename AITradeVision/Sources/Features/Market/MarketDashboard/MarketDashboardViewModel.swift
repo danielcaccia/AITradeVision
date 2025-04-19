@@ -40,9 +40,17 @@ class MarketDashboardViewModel: ObservableObject {
         self.appCoordinator = appCoordinator
         
         Task {
-            await fetchIndexesQuotes(for: MarketIndex.allCases.map { $0.symbol })
-            await fetchMarketMovers()
-            await fetchWatchlist()
+            await withTaskGroup(of: Void.self) { group in
+                group.addTask {
+                    await self.fetchIndexesQuotes(for: MarketIndex.allCases.map { $0.symbol })
+                }
+                group.addTask {
+                    await self.fetchMarketMovers()
+                }
+                group.addTask {
+                    await self.fetchWatchlist()
+                }
+            }
         }
     }
     
@@ -71,11 +79,15 @@ class MarketDashboardViewModel: ObservableObject {
         isLoadingWatchlist = true
         defer { isLoadingWatchlist = false }
         
+        var updatedWatchlist: [StockQuoteDTO] = []
+        
         for symbol in watchlistManager.symbols {
             if let quote = await stockManager.getStockPrice(for: symbol) {
-                watchlist.append(quote)
+                updatedWatchlist.append(quote)
             }
         }
+        
+        watchlist = updatedWatchlist
     }
     
     //MARK: - Watchlist Handlers
@@ -83,6 +95,7 @@ class MarketDashboardViewModel: ObservableObject {
     func tryAddSymbol(_ symbol: String) {
         Task {
             await watchlistManager.add(symbol: symbol)
+            await fetchWatchlist()
         }
     }
     

@@ -12,6 +12,7 @@ struct MarketMoversView: View {
     @ObservedObject var viewModel: MarketDashboardViewModel
     
     @State private var selectedSection: MarketMoversSection = .trending
+    @State private var scrollTarget = UUID()
     
     var body: some View {
         TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
@@ -26,30 +27,40 @@ struct MarketMoversView: View {
                 .pickerStyle(.segmented)
             }
             
-            ScrollView(.horizontal, showsIndicators: false) {
-                TradeVisionHStack {
-                    if viewModel.isLoadingMovers {
-                        marketMoverCard(mover: nil)
-                        marketMoverCard(mover: nil)
-                        marketMoverCard(mover: nil)
-                    } else {
-                        switch selectedSection {
-                        case .trending:
-                            ForEach(viewModel.marketTrending) { mover in
-                                marketMoverCard(mover: mover)
-                            }
-                        case .gainers:
-                            ForEach(viewModel.marketMovers.gainers) { mover in
-                                marketMoverCard(mover: mover)
-                            }
-                        case .losers:
-                            ForEach(viewModel.marketMovers.losers) { mover in
-                                marketMoverCard(mover: mover)
+            ScrollViewReader { proxy in
+                ScrollView(.horizontal, showsIndicators: false) {
+                    TradeVisionHStack {
+                        Color.clear.frame(width: 0).id(scrollTarget)
+                        
+                        if viewModel.isLoadingMovers {
+                            marketMoverCard(mover: nil)
+                            marketMoverCard(mover: nil)
+                            marketMoverCard(mover: nil)
+                        } else {
+                            switch selectedSection {
+                            case .trending:
+                                ForEach(viewModel.marketTrending) { mover in
+                                    marketMoverCard(mover: mover)
+                                }
+                            case .gainers:
+                                ForEach(viewModel.marketMovers.gainers) { mover in
+                                    marketMoverCard(mover: mover)
+                                }
+                            case .losers:
+                                ForEach(viewModel.marketMovers.losers) { mover in
+                                    marketMoverCard(mover: mover)
+                                }
                             }
                         }
                     }
+                    .padding(.vertical, TradeVisionSpacing.xs)
                 }
-                .padding(.vertical, TradeVisionSpacing.xs)
+                .onChange(of: selectedSection) { _ in
+                    scrollTarget = UUID()
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        proxy.scrollTo(scrollTarget, anchor: .leading)
+                    }
+                }
             }
             .animation(.easeInOut(duration: 0.3), value: selectedSection)
         }
