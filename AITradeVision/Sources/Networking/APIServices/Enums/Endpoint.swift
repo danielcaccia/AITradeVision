@@ -14,40 +14,36 @@ enum Endpoint {
     case fetchMarketMovers
     case fetchTrendingNow
     case fetchNews(symbol: String)
+    case fetchLatestNews
     case analyzeSentiment
     
-    var baseURL: String {
-        switch self {
-        case .fetchStockPrice,
-                .fetchStockHistory,
-                .fetchMarketIndexQuote,
-                .fetchMarketMovers,
-                .fetchTrendingNow:
-            "http://127.0.0.1:5001/"
-        case .fetchNews(_):
-            "https://newsapi.org/v2/"
-        case .analyzeSentiment:
-            "http://127.0.0.1:5001/"
-        }
-    }
+    var baseURL: String { "http://127.0.0.1:5001/" }
 
     var pathParameters: String {
         switch self {
         case .fetchStockPrice(let symbol):
-            return "quote?symbol=\(symbol)"
+            "quote?symbol=\(symbol)"
+            
         case .fetchStockHistory(symbol: let symbol):
-            return "stock-history?symbol=\(symbol)"
+            "stock-history?symbol=\(symbol)"
+            
         case .fetchMarketIndexQuote(let symbol):
-            return "index-quote?symbol=\(symbol)"
+            "index-quote?symbol=\(symbol)"
+            
         case .fetchMarketMovers:
-            return "market-movers"
+            "market-movers"
+            
         case .fetchTrendingNow:
-            return "market-trending"
+            "market-trending"
+            
         case .fetchNews(symbol: let symbol):
-            guard let apiKey = ProcessInfo.processInfo.environment["NEWS_API_ORG_API_KEY"] else { return "" }
-            return "everything?q=\(symbol)&language=en&pageSize=10&apiKey=\(apiKey)"
+            "stock-news?symbol=\(symbol)"
+            
+        case .fetchLatestNews:
+            "latest-news"
+            
         case .analyzeSentiment:
-            return "analyze"
+            "analyze"
         }
     }
 }

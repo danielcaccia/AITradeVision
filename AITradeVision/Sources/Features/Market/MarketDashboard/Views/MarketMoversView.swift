@@ -53,6 +53,7 @@ struct MarketMoversView: View {
                             }
                         }
                     }
+                    .padding(.leading, -TradeVisionSpacing.md)
                     .padding(.vertical, TradeVisionSpacing.xs)
                 }
                 .onChange(of: selectedSection) { _ in
