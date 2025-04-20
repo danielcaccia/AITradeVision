@@ -1,16 +1,15 @@
 //
-//  StockQuote.swift
+//  MarketIndexQuote.swift
 //  AITradeVision
 //
-//  Created by Daniel Caccia on 01/04/25.
+//  Created by Daniel Caccia on 12/04/25.
 //
 
 import Foundation
 
-struct StockQuote: Decodable {
+struct MarketIndexQuote: Decodable {
     enum CodingKeys: String, CodingKey {
         case symbol
-        case displayName = "display_name"
         case open
         case dayHigh = "day_high"
         case dayLow = "day_low"
@@ -20,7 +19,6 @@ struct StockQuote: Decodable {
     }
     
     let symbol: String
-    let displayName: String?
     let open: Double
     let dayHigh: Double
     let dayLow: Double

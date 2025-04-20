@@ -9,10 +9,12 @@ import Foundation
 
 protocol StockManagerProtocol {
     func getStockPrice(for symbol: String) async -> StockQuoteDTO?
-    func fetchStockHistory(for symbol: String) async -> [StockQuoteDTO]
+    func fetchStockHistory(for symbol: String) async -> HistoryDTO?
+    func fetchMarketMovers() async -> MarketMoversDTO
+    func fetchTrendingNow() async -> [MarketMoverDTO]
 }
 
-class StockManager: StockManagerProtocol {
+class StockManager: StockManagerProtocol, ObservableObject {
     private let financeService: any FinanceServiceProtocol
     private let errorHandler: any ErrorHandler
     
@@ -28,9 +30,23 @@ class StockManager: StockManagerProtocol {
             }, errorHandler: errorHandler, context: "StockManager.getStockPrice")
     }
     
-    func fetchStockHistory(for symbol: String) async -> [StockQuoteDTO] {
-        await Task.runWithHandlingArray({
-            return try await self.financeService.fetchStockHistory(for: symbol).map { StockQuoteDTO(from: $0) }
+    func fetchStockHistory(for symbol: String) async -> HistoryDTO? {
+        await Task.runWithHandling({
+            guard let history = try await self.financeService.fetchStockHistory(for: symbol) else { return nil }
+            return HistoryDTO(from: history)
         }, errorHandler: errorHandler, context: "StockManager.fetchStockHistory")
+    }
+    
+    func fetchMarketMovers() async -> MarketMoversDTO {
+        await Task.runWithHandling({
+            let movers = try await self.financeService.fetchMarketMovers()
+            return MarketMoversDTO(from: movers)
+        }, errorHandler: errorHandler, context: "StockManager.fetchMarketMovers") ?? MarketMoversDTO(gainers: [], losers: [])
+    }
+    
+    func fetchTrendingNow() async -> [MarketMoverDTO] {
+        await Task.runWithHandlingArray({
+            return try await self.financeService.fetchTrendingNow().map { MarketMoverDTO(from: $0) }
+        }, errorHandler: errorHandler, context: "StockManager.fetchTrendingNow")
     }
 }

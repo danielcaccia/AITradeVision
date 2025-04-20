@@ -8,7 +8,8 @@
 import Foundation
 
 protocol NewsManagerProtocol {
-    func fetchNews(for symbol: String) async -> [NewsArticleDTO]
+    func fetchNews(for symbol: String) async -> StockNewsDTO?
+    func fetchLatestNews() async -> [NewsArticleDTO]
 }
 
 class NewsManager: NewsManagerProtocol {
@@ -20,9 +21,16 @@ class NewsManager: NewsManagerProtocol {
         self.errorHandler = errorHandler
     }
     
-    func fetchNews(for symbol: String) async -> [NewsArticleDTO] {
-        await Task.runWithHandlingArray({
-            return try await self.newsService.fetchNews(for: symbol).map { NewsArticleDTO(from: $0) }
+    func fetchNews(for symbol: String) async -> StockNewsDTO? {
+        await Task.runWithHandling({
+            guard let news = try await self.newsService.fetchNews(for: symbol) else { return nil }
+            return StockNewsDTO(from: news, symbol: symbol)
         }, errorHandler: errorHandler, context: "NewsManager.fetchNews")
+    }
+    
+    func fetchLatestNews() async -> [NewsArticleDTO] {
+        await Task.runWithHandlingArray({
+            return try await self.newsService.fetchLatestNews().map { NewsArticleDTO(from: $0) }
+        }, errorHandler: errorHandler, context: "NewsManager.fetchLatestNews")
     }
 }
