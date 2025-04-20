@@ -27,9 +27,9 @@ class MarketSentimentViewModel: ObservableObject {
         isLoading = true
         defer { isLoading = false }
         
-        let articles = await newsManager.fetchNews(for: symbol)
-        let headlines = articles.map { $0.title.replacingOccurrences(of: "'", with: "’") }.joined(separator: " ")
+        let stockNews = await newsManager.fetchNews(for: symbol)
+        let headlines = stockNews?.articles.map { $0.title.replacingOccurrences(of: "'", with: "’") }.joined(separator: " ")
         
-        self.sentiment = await sentimentManager.analyzeSentiment(for: headlines)
+        self.sentiment = await sentimentManager.analyzeSentiment(for: headlines ?? "")
     }
 }
