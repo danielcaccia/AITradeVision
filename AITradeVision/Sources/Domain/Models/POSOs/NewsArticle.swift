@@ -28,7 +28,7 @@ struct NewsArticle: Decodable {
     let url: String
     let urlToImage: String?
     let publishedAt: String
-    let sentiment: Sentiment?
+    let sentiment: AverageSentiment?
 }
 
 struct NewsSource: Decodable {

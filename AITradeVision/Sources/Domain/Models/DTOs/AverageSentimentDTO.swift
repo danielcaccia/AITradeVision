@@ -14,7 +14,9 @@ struct AverageSentimentDTO: Identifiable {
     let neutralScore: Double
     let negativeScore: Double
 
-    init(from average: AverageSentiment) {
+    init?(from average: AverageSentiment?) {
+        guard let average else { return nil }
+        
         self.id = UUID()
         self.label = SentimentDTO(from: average.label) 
         self.positiveScore = average.positive

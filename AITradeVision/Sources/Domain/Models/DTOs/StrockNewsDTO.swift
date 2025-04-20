@@ -10,7 +10,7 @@ import Foundation
 struct StockNewsDTO: Identifiable {
     let id: UUID
     let symbol: String
-    let averageSentiment: AverageSentimentDTO
+    let averageSentiment: AverageSentimentDTO?
     let articles: [NewsArticleDTO]
     
     init(from stockNews: StockNews, symbol: String) {

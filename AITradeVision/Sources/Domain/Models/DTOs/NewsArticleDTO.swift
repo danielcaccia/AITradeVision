@@ -17,7 +17,7 @@ struct NewsArticleDTO: Identifiable {
     let url: URL?
     let urlToImage: URL?
     let publishedAt: String
-    let sentiment: Sentiment?
+    let sentiment: AverageSentimentDTO?
     
     init(from newsArticle: NewsArticle) {
         self.id = UUID()
@@ -29,7 +29,7 @@ struct NewsArticleDTO: Identifiable {
         self.url = URL(string: newsArticle.url)
         self.urlToImage = URL(string: newsArticle.urlToImage ?? "")
         self.publishedAt = newsArticle.publishedAt
-        self.sentiment = newsArticle.sentiment
+        self.sentiment = AverageSentimentDTO(from: newsArticle.sentiment)
     }
 }
 

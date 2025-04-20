@@ -15,7 +15,7 @@ struct AverageSentiment: Decodable {
 }
 
 enum Sentiment: String, Decodable {
-    case positive
-    case neutral
-    case negative
+    case positive = "positive"
+    case neutral = "neutral"
+    case negative = "negative"
 }

@@ -20,7 +20,7 @@ struct StockQuote: Decodable {
     }
     
     let symbol: String
-    let displayName: String
+    let displayName: String?
     let open: Double
     let dayHigh: Double
     let dayLow: Double

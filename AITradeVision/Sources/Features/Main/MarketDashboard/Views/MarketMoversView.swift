@@ -9,6 +9,8 @@ import SwiftUI
 import TradeVisionUI
 
 struct MarketMoversView: View {
+    @EnvironmentObject var coordinator: MarketCoordinator
+    
     @ObservedObject var viewModel: MarketDashboardViewModel
     
     @State private var selectedSection: MarketMoversSection = .trending
@@ -41,14 +43,23 @@ struct MarketMoversView: View {
                             case .trending:
                                 ForEach(viewModel.marketTrending) { mover in
                                     marketMoverCard(mover: mover)
+                                        .onTapGesture {
+                                            coordinator.route = .stockDetail(stockSymbol: mover.symbol)
+                                        }
                                 }
                             case .gainers:
                                 ForEach(viewModel.marketMovers.gainers) { mover in
                                     marketMoverCard(mover: mover)
+                                        .onTapGesture {
+                                            coordinator.route = .stockDetail(stockSymbol: mover.symbol)
+                                        }
                                 }
                             case .losers:
                                 ForEach(viewModel.marketMovers.losers) { mover in
                                     marketMoverCard(mover: mover)
+                                        .onTapGesture {
+                                            coordinator.route = .stockDetail(stockSymbol: mover.symbol)
+                                        }
                                 }
                             }
                         }

@@ -29,7 +29,7 @@ struct MarketDashboardView: View {
                     MarketMoversView(viewModel: viewModel)
                     WatchlistView(viewModel: viewModel)
                     QuickActionsView()
-                    MarketNewsView()
+                    MarketNewsView(viewModel: viewModel)
                 }
                 .padding()
             }

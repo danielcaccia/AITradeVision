@@ -28,7 +28,7 @@ struct WatchlistView: View {
             
             TradeVisionVStack(spacing: TradeVisionSpacing.zero) {
                 if viewModel.isLoadingWatchlist {
-                    ProgressView("Carregando transações...")
+                    ProgressView("Carregando favoritos...")
                         .progressViewStyle(CircularProgressViewStyle())
                         .padding()
                 } else if viewModel.watchlist.isEmpty {
@@ -39,7 +39,7 @@ struct WatchlistView: View {
                         TradeVisionSwipeableRow {
                             viewModel.removeSymbol(quote.symbol)
                         } onTap: {
-                            coordinator.route = .stockDetail(stock: quote)
+                            coordinator.route = .stockDetail(stockSymbol: quote.symbol)
                         } content: {
                             TradeVisionHStack {
                                 TradeVisionLabel(quote.symbol, type: .title)

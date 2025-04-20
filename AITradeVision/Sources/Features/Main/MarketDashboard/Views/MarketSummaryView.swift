@@ -9,6 +9,8 @@ import SwiftUI
 import TradeVisionUI
 
 struct MarketSummaryView: View {
+    @EnvironmentObject var coordinator: MarketCoordinator
+    
     @ObservedObject var viewModel: MarketDashboardViewModel
     
     var body: some View {
@@ -21,6 +23,9 @@ struct MarketSummaryView: View {
                 } else {
                     ForEach(viewModel.marketIndexQuotes) { quote in
                         marketSummaryCard(for: quote)
+                            .onTapGesture {
+                                coordinator.route = .stockDetail(stockSymbol: quote.symbol)
+                            }
                     }
                 }
             }

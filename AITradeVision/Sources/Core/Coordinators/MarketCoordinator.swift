@@ -18,9 +18,7 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     
     enum MarketRoute: Equatable {
         case marketDashboard
-        case stockDetail(stock: StockQuoteDTO)
-        case sentimentAnalysis(stockSymbol: String)
-        case stockHistory(stockSymbol: String)
+        case stockDetail(stockSymbol: String)
     }
     
     func start() -> some View {
@@ -36,37 +34,25 @@ final class MarketCoordinator: Coordinator, ObservableObject {
             let watchlistManager = WatchlistManager(errorHandler: watchlistHandler)
             let stockManager = StockManager(errorHandler: networkingHandler)
             let marketIndexManager = MarketIndexManager(errorHandler: networkingHandler)
+            let newsManager = NewsManager(errorHandler: networkingHandler)
             let alertChecker = AlertChecker(stockManager: stockManager)
+            
             let viewModel = MarketDashboardViewModel(
                 watchlistManager: watchlistManager,
                 stockManager: stockManager,
                 marketIndexManager: marketIndexManager,
+                newsManager: newsManager,
                 appCoordinator: appCoordinator
             )
             
             MarketDashboardView(alertChecker: alertChecker)
                 .environmentObject(viewModel)
         
-        case .stockDetail(let stock):
+        case .stockDetail(let stockSymbol):
             let stockManager = StockManager(errorHandler: networkingHandler)
-            let viewModel = StockDetailsViewModel(symbol: stock.symbol, stockManager: stockManager)
+            let viewModel = StockDetailsViewModel(symbol: stockSymbol, stockManager: stockManager)
             
-            StockDetailsView(stock: stock)
-                .environmentObject(viewModel)
-            
-        case .sentimentAnalysis(let symbol):
-            let newsManager = NewsManager(errorHandler: networkingHandler)
-            let sentimentManager = SentimentManager(errorHandler: networkingHandler)
-            let viewModel = MarketSentimentViewModel(newsManager: newsManager, sentimentManager: sentimentManager)
-            
-            MarketSentimentView(stockSymbol: symbol)
-                .environmentObject(viewModel)
-            
-        case .stockHistory(let symbol):
-            let stockManager = StockManager(errorHandler: networkingHandler)
-            let viewModel = StockChartViewModel(stockManager: stockManager)
-            
-            StockChartView(stockSymbol: symbol)
+            StockDetailsView()
                 .environmentObject(viewModel)
         }
     }

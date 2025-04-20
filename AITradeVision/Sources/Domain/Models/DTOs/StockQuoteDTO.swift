@@ -21,7 +21,7 @@ struct StockQuoteDTO: Identifiable, Equatable {
     init(from stock: StockQuote) {
         self.id = UUID()
         self.symbol = stock.symbol
-        self.displayName = stock.displayName
+        self.displayName = stock.displayName ?? "N/A"
         self.open = stock.open
         self.dayHigh = stock.dayHigh
         self.dayLow = stock.dayLow

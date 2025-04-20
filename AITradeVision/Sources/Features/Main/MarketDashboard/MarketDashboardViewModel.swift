@@ -15,14 +15,19 @@ class MarketDashboardViewModel: ObservableObject {
     @Published var marketTrending: [MarketMoverDTO] = []
     @Published var marketMovers: MarketMoversDTO = MarketMoversDTO(gainers: [], losers: [])
     @Published var watchlist: [StockQuoteDTO] = []
+    @Published var latestNews: [NewsArticleDTO] = []
     
     @Published var isLoadingSummary = false
     @Published var isLoadingMovers = false
     @Published var isLoadingWatchlist = false
+    @Published var isLoadingLatestNews = false
 
     private let watchlistManager: WatchlistManager
     private let stockManager: any StockManagerProtocol
     private let marketIndexManager: any MarketIndexManagerProtocol
+    private let newsManager: any NewsManagerProtocol
+    
+    var selectedNews: NewsArticleDTO?
     
     weak var appCoordinator: AppCoordinator?
     
@@ -32,11 +37,13 @@ class MarketDashboardViewModel: ObservableObject {
         watchlistManager: WatchlistManager,
         stockManager: some StockManagerProtocol,
         marketIndexManager: some MarketIndexManagerProtocol,
+        newsManager: some NewsManagerProtocol,
         appCoordinator: AppCoordinator? = nil
     ) {
         self.watchlistManager = watchlistManager
         self.stockManager = stockManager
         self.marketIndexManager = marketIndexManager
+        self.newsManager = newsManager
         self.appCoordinator = appCoordinator
         
         Task {
@@ -49,6 +56,9 @@ class MarketDashboardViewModel: ObservableObject {
                 }
                 group.addTask {
                     await self.fetchWatchlist()
+                }
+                group.addTask {
+                    await self.fetchLatestNews()
                 }
             }
         }
@@ -88,6 +98,13 @@ class MarketDashboardViewModel: ObservableObject {
         }
         
         watchlist = updatedWatchlist
+    }
+    
+    func fetchLatestNews() async {
+        isLoadingLatestNews = true
+        defer { isLoadingLatestNews = false }
+        
+        latestNews = await newsManager.fetchLatestNews()
     }
     
     //MARK: - Watchlist Handlers
