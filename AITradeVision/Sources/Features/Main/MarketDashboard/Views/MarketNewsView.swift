@@ -24,22 +24,25 @@ struct MarketNewsView: View {
                 } else if viewModel.latestNews.isEmpty {
                     TradeVisionLabel("Oops. Parece que não temos notícias...", type: .subtitle, alignment: .center)
                 } else {
-                    ForEach(viewModel.latestNews) { article in
+                    ForEach(Array(viewModel.latestNews.enumerated()), id: \.1.id) { index, article in
                         TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.xs) {
                             TradeVisionLabel(article.title, type: .title)
                             if let description = article.description {
                                 TradeVisionLabel(description, type: .subtitle)
                                     .lineLimit(2)
                             }
-                            TradeVisionLabel("Read more", type: .subtitle, alignment: .trailing)
+                            TradeVisionLabel("Read more", type: .title, alignment: .trailing)
                         }
                         .padding(.vertical, TradeVisionSpacing.xs)
                         .onTapGesture {
                             viewModel.selectedNews = article
                             showingNewsWebView = true
                         }
+                        
+                        if index < viewModel.watchlist.count - 1 {
+                            TradeVisionDivider()
+                        }
                     }
-                    
                 }
             }
             .frame(maxWidth: .infinity)

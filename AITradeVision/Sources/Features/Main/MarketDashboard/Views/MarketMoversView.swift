@@ -20,13 +20,12 @@ struct MarketMoversView: View {
         TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
             TradeVisionVStack(alignment: .leading) {
                 TradeVisionLabel("Market Movers", type: .sectionHeader)
-                Picker("", selection: $selectedSection) {
+                TradeVisionPicker(selection: $selectedSection) {
                     ForEach(MarketMoversSection.allCases) { section in
                         TradeVisionLabel(section.title, type: .subtitle, alignment: .center).tag(section)
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .pickerStyle(.segmented)
             }
             
             ScrollViewReader { proxy in
