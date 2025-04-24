@@ -11,23 +11,23 @@ import TradeVisionUI
 struct QuickActionsView: View {
     var body: some View {
         TradeVisionHStack(spacing: TradeVisionSpacing.lg) {
-            ActionButton(title: "Search", icon: "magnifyingglass", action: {})
-            ActionButton(title: "News", icon: "newspaper", action: {})
-            ActionButton(title: "Add", icon: "plus", action: {})
-            ActionButton(title: "Explore", icon: "safari", action: {})
+            ActionButton(title: "Dividends", icon: TradeVisionImage(Image(.dividendCalendar), type: .buttonIcon), action: {})
+            ActionButton(title: "IPOs", icon: TradeVisionImage(Image(.ipoCalendar), type: .buttonIcon), action: {})
+            ActionButton(title: "Radar", icon: TradeVisionImage(Image(systemName: "scope"), type: .buttonIcon), action: {})
+            ActionButton(title: "AI Picks", icon: TradeVisionImage(Image(.AI), type: .buttonIcon), action: {})
         }
     }
 
     struct ActionButton: View {
         let title: String
-        let icon: String
+        let icon: TradeVisionImage
         let action: () -> Void
 
         var body: some View {
             TradeVisionLabelWithIcon(
                 title,
                 type: .subtitle,
-                iconImage: Image(systemName: icon),
+                iconImage: icon,
                 position: .top
             )
             .lineLimit(1)
