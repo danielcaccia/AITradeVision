@@ -10,17 +10,22 @@ import TradeVisionUI
 
 struct QuickActionsView: View {
     var body: some View {
-        TradeVisionHStack(spacing: TradeVisionSpacing.lg) {
-            ActionButton(title: "Dividends", icon: TradeVisionImage(Image(.dividendCalendar), type: .buttonIcon), action: {})
-            ActionButton(title: "IPOs", icon: TradeVisionImage(Image(.ipoCalendar), type: .buttonIcon), action: {})
-            ActionButton(title: "Radar", icon: TradeVisionImage(Image(systemName: "scope"), type: .buttonIcon), action: {})
-            ActionButton(title: "AI Picks", icon: TradeVisionImage(Image(.AI), type: .buttonIcon), action: {})
+        TradeVisionVStack(spacing: TradeVisionSpacing.md) {
+            TradeVisionHStack(spacing: TradeVisionSpacing.md) {
+                ActionButton(title: "Dividends", icon: Image(.dividendCalendar), action: {})
+                ActionButton(title: "IPOs", icon: Image(.ipoCalendar), action: {})
+            }
+            
+            TradeVisionHStack(spacing: TradeVisionSpacing.md) {
+                ActionButton(title: "Radar", icon: Image(systemName: "scope"), action: {})
+                ActionButton(title: "AI Picks", icon: Image(.AI), action: {})
+            }
         }
     }
 
     struct ActionButton: View {
         let title: String
-        let icon: TradeVisionImage
+        let icon: Image
         let action: () -> Void
 
         var body: some View {
@@ -31,7 +36,7 @@ struct QuickActionsView: View {
                 position: .top
             )
             .lineLimit(1)
-            .minimumScaleFactor(0.5)
+            .minimumScaleFactor(0.7)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .tradeVisionCard()
             .contentShape(Rectangle())

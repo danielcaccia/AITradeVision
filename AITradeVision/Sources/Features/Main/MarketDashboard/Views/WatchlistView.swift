@@ -41,12 +41,24 @@ struct WatchlistView: View {
                         } onTap: {
                             coordinator.route = .stockDetail(stockSymbol: quote.symbol)
                         } content: {
-                            TradeVisionHStack {
-                                TradeVisionLabel(quote.symbol, type: .title)
+                            TradeVisionHStack(spacing: TradeVisionSpacing.md) {
+                                TradeVisionVStack(spacing: TradeVisionSpacing.xs) {
+                                    TradeVisionLabel(quote.symbol, type: .title)
+                                    TradeVisionLabel(quote.displayName, type: .subtitle)
+                                        .lineLimit(1, reservesSpace: true)
+                                        .minimumScaleFactor(0.8)
+                                        .truncationMode(.tail)
+                                }
+                                .layoutPriority(1)
+                                .frame(maxWidth: .infinity)
+                                
                                 Spacer()
-                                    .frame(maxWidth: .infinity)
-                                TradeVisionLabel(quote.latestPrice.toString(decimals: 2), type: .title, alignment: .trailing)
-                                TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .trailing)
+                                
+                                TradeVisionVStack(spacing: TradeVisionSpacing.xs) {
+                                    TradeVisionLabel("$\(quote.latestPrice.toString(decimals: 2))", type: .title, alignment: .trailing)
+                                    TradeVisionLabel("\(quote.variation.toString(decimals: 2))%", type: quote.variation.labelType, alignment: .trailing)
+                                }
+                                .fixedSize()
                             }
                         }
                         
