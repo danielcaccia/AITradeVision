@@ -12,6 +12,7 @@ protocol StockManagerProtocol {
     func fetchStockHistory(for symbol: String) async -> HistoryDTO?
     func fetchMarketMovers() async -> MarketMoversDTO
     func fetchTrendingNow() async -> [MarketMoverDTO]
+    func fetchUpcomingDividends() async -> [DividendInfoDTO]
 }
 
 class StockManager: StockManagerProtocol, ObservableObject {
@@ -48,5 +49,11 @@ class StockManager: StockManagerProtocol, ObservableObject {
         await Task.runWithHandlingArray({
             return try await self.financeService.fetchTrendingNow().map { MarketMoverDTO(from: $0) }
         }, errorHandler: errorHandler, context: "StockManager.fetchTrendingNow")
+    }
+    
+    func fetchUpcomingDividends() async -> [DividendInfoDTO] {
+        await Task.runWithHandlingArray({
+            return try await self.financeService.fetchUpcomingDividends().map { DividendInfoDTO(from: $0) }
+        }, errorHandler: errorHandler, context: "StockManager.fetchUpcomingDividends")
     }
 }

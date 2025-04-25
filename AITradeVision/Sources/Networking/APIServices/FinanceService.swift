@@ -13,6 +13,7 @@ protocol FinanceServiceProtocol {
     func fetchMarketIndexQuote(for symbol: String) async throws -> MarketIndexQuote?
     func fetchMarketMovers() async throws -> MarketMovers
     func fetchTrendingNow() async throws -> [MarketMover]
+    func fetchUpcomingDividends() async throws -> [DividendInfo]
 }
 
 class FinanceService: APIService, FinanceServiceProtocol {
@@ -37,5 +38,10 @@ class FinanceService: APIService, FinanceServiceProtocol {
     func fetchTrendingNow() async throws -> [MarketMover] {
         let response: MarketTrendingResponse = try await self.request(endpoint: .fetchTrendingNow, method: .get)
         return response.trending
+    }
+    
+    func fetchUpcomingDividends() async throws -> [DividendInfo] {
+        let response: UpcomingDividendsResponse = try await self.request(endpoint: .fetchUpcomingDividends, method: .get)
+        return response.upcomingDividends
     }
 }

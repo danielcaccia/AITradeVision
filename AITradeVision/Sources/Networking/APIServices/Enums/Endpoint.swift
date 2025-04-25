@@ -13,6 +13,7 @@ enum Endpoint {
     case fetchMarketIndexQuote(symbol: String)
     case fetchMarketMovers
     case fetchTrendingNow
+    case fetchUpcomingDividends
     case fetchNews(symbol: String)
     case fetchLatestNews
     case analyzeSentiment
@@ -35,6 +36,9 @@ enum Endpoint {
             
         case .fetchTrendingNow:
             "market-trending"
+            
+        case .fetchUpcomingDividends:
+            "upcoming-dividends"
             
         case .fetchNews(symbol: let symbol):
             "stock-news?symbol=\(symbol)"

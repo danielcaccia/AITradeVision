@@ -32,10 +32,6 @@ class StockDetailsViewModel: ObservableObject {
                 }
             }
         }
-        
-        Task {
-            await fetchStockHistory(for: symbol)
-        }
     }
     
     private func fetchStockQuote(for symbol: String) async {
