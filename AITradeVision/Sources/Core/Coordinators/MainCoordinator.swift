@@ -1,5 +1,5 @@
 //
-//  MarketCoordinator.swift
+//  MainCoordinator.swift
 //  AITradeVision
 //
 //  Created by Daniel Caccia on 06/04/25.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-final class MarketCoordinator: Coordinator, ObservableObject {
+final class MainCoordinator: Coordinator, ObservableObject {
     @Published var route: MarketRoute = .marketDashboard
     
     private let networkingHandler = NetworkingErrorHandler()
@@ -19,10 +19,14 @@ final class MarketCoordinator: Coordinator, ObservableObject {
     enum MarketRoute: Equatable {
         case marketDashboard
         case stockDetail(stockSymbol: String)
+        case nextDividends
+        case nextIPOs
+        case technicalRadar
+        case aiPicks
     }
     
     func start() -> some View {
-        MarketContainerView()
+        MainContainerView()
             .environmentObject(self)
             .environmentObject(appCoordinator)
     }
@@ -53,6 +57,30 @@ final class MarketCoordinator: Coordinator, ObservableObject {
             let viewModel = StockDetailsViewModel(symbol: stockSymbol, stockManager: stockManager)
             
             StockDetailsView()
+                .environmentObject(viewModel)
+            
+        case .nextDividends:
+            let viewModel = DividendsViewModel()
+            
+            DividendsView()
+                .environmentObject(viewModel)
+            
+        case .nextIPOs:
+            let viewModel = IPOsViewModel()
+            
+            IPOsView()
+                .environmentObject(viewModel)
+            
+        case .technicalRadar:
+            let viewModel = RadarViewModel()
+            
+            RadarView()
+                .environmentObject(viewModel)
+            
+        case .aiPicks:
+            let viewModel = AIPicksViewModel()
+            
+            AIPicksView()
                 .environmentObject(viewModel)
         }
     }

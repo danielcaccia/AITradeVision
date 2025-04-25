@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TradeVisionUI
 
 struct SettingsView: View {
     @EnvironmentObject private var viewModel: SettingsViewModel
@@ -14,8 +15,9 @@ struct SettingsView: View {
     @State private var showRemoveAds = false
     
     var body: some View {
-        VStack(spacing: 24) {
+        TradeVisionVStack(alignment: .leading) {
             Text("⚙️ Configurações")
+                .multilineTextAlignment(.leading)
                 .font(.largeTitle)
                 .fontWeight(.semibold)
             
@@ -43,20 +45,16 @@ struct SettingsView: View {
             
             Divider().padding(.vertical, 10)
             
-            Button("Logout") {
+            TradeVisionButton(type: .primary("Logout")) {
                 Task { await viewModel.logout() }
             }
-            .buttonStyle(.borderedProminent)
-            .tint(.red)
-            
-            Button("Voltar ao Dashboard") {
-                viewModel.goToDashboard()
-            }
-            .buttonStyle(.bordered)
             
             Spacer()
         }
         .padding()
+        .tradeNavigationBar(title: "AITradeVision")
+        .withBackButton(backAction: { viewModel.goToDashboard() })
+        .tradeVisionBackground(.primaryBackground)
         .sheet(isPresented: $showingPaywall) {
             PaywallView()
         }

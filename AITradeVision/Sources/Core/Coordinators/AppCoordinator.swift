@@ -18,7 +18,7 @@ protocol Coordinator: ObservableObject {
 class AppCoordinator: ObservableObject {
     @Published var currentFlow: Flow = .auth
     
-    private lazy var marketCoordinator = MarketCoordinator()
+    private lazy var marketCoordinator = MainCoordinator()
     private lazy var authCoordinator = AuthCoordinator(appCoordinator: self)
     private lazy var settingsCoordinator = SettingsCoordinator()
     

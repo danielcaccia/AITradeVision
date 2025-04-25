@@ -9,16 +9,18 @@ import SwiftUI
 import TradeVisionUI
 
 struct QuickActionsView: View {
+    @EnvironmentObject var coordinator: MainCoordinator
+    
     var body: some View {
         TradeVisionVStack(spacing: TradeVisionSpacing.md) {
             TradeVisionHStack(spacing: TradeVisionSpacing.md) {
-                ActionButton(title: "Dividends", icon: Image(.dividendCalendar), action: {})
-                ActionButton(title: "IPOs", icon: Image(.ipoCalendar), action: {})
+                ActionButton(title: "Dividends", icon: Image(.dividendCalendar), action: { coordinator.route = .nextDividends })
+                ActionButton(title: "IPOs", icon: Image(.ipoCalendar), action: { coordinator.route = .nextIPOs })
             }
             
             TradeVisionHStack(spacing: TradeVisionSpacing.md) {
-                ActionButton(title: "Radar", icon: Image(systemName: "scope"), action: {})
-                ActionButton(title: "AI Picks", icon: Image(.AI), action: {})
+                ActionButton(title: "Radar", icon: Image(systemName: "scope"), action: { coordinator.route = .technicalRadar })
+                ActionButton(title: "AI Picks", icon: Image(.AI), action: { coordinator.route = .aiPicks })
             }
         }
     }
@@ -41,7 +43,7 @@ struct QuickActionsView: View {
             .tradeVisionCard()
             .contentShape(Rectangle())
             .onTapGesture {
-                // Go to action
+                action()
             }
         }
     }

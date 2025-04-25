@@ -9,7 +9,7 @@ import SwiftUI
 import TradeVisionUI
 
 struct WatchlistView: View {
-    @EnvironmentObject var coordinator: MarketCoordinator
+    @EnvironmentObject var coordinator: MainCoordinator
     
     @ObservedObject var viewModel: MarketDashboardViewModel
     

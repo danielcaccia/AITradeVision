@@ -10,7 +10,7 @@ import TradeVisionUI
 
 struct MarketDashboardView: View {
     @EnvironmentObject private var viewModel: MarketDashboardViewModel
-    @EnvironmentObject var coordinator: MarketCoordinator
+    @EnvironmentObject var coordinator: MainCoordinator
     
     @ObservedObject private var alertChecker: AlertChecker
     

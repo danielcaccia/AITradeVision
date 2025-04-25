@@ -1,5 +1,5 @@
 //
-//  MarketContainerView.swift
+//  MainContainerView.swift
 //  AITradeVision
 //
 //  Created by Daniel Caccia on 06/04/25.
@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct MarketContainerView: View {
-    @EnvironmentObject var coordinator: MarketCoordinator
+struct MainContainerView: View {
+    @EnvironmentObject var coordinator: MainCoordinator
 
     var body: some View {
         NavigationStack {

@@ -10,7 +10,7 @@ import TradeVisionUI
 
 struct StockDetailsView: View {
     @EnvironmentObject private var viewModel: StockDetailsViewModel
-    @EnvironmentObject var coordinator: MarketCoordinator
+    @EnvironmentObject var coordinator: MainCoordinator
         
     var body: some View {
         ScrollView {
