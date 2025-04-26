@@ -33,7 +33,7 @@ struct DividendsView: View {
                                     TradeVisionLabel("Data: \(dividend.dividendDate)", type: .subtitle)
                                 }
                                 Spacer()
-                                TradeVisionLabel("$\(dividend.lastDividend.toString(decimals: 2))", type: .title)
+                                TradeVisionLabel("\(dividend.dividendPerShare.toString(decimals: 2))%", type: .title)
                             }
                             .tradeVisionCard()
                         }

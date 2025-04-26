@@ -40,25 +40,40 @@ struct MarketMoversView: View {
                         } else {
                             switch selectedSection {
                             case .trending:
-                                ForEach(viewModel.marketTrending) { mover in
-                                    marketMoverCard(mover: mover)
-                                        .onTapGesture {
-                                            coordinator.route = .stockDetail(stockSymbol: mover.symbol)
-                                        }
+                                if viewModel.marketTrending.isEmpty {
+                                    TradeVisionLabel("Market Trending está vazia.", type: .subtitle, alignment: .center)
+                                        .padding()
+                                } else {
+                                    ForEach(viewModel.marketTrending) { mover in
+                                        marketMoverCard(mover: mover)
+                                            .onTapGesture {
+                                                coordinator.route = .stockDetail(stockSymbol: mover.symbol)
+                                            }
+                                    }
                                 }
                             case .gainers:
-                                ForEach(viewModel.marketMovers.gainers) { mover in
-                                    marketMoverCard(mover: mover)
-                                        .onTapGesture {
-                                            coordinator.route = .stockDetail(stockSymbol: mover.symbol)
-                                        }
+                                if viewModel.marketMovers.gainers.isEmpty {
+                                    TradeVisionLabel("Top Gainers está vazia.", type: .subtitle, alignment: .center)
+                                        .padding()
+                                } else {
+                                    ForEach(viewModel.marketMovers.gainers) { mover in
+                                        marketMoverCard(mover: mover)
+                                            .onTapGesture {
+                                                coordinator.route = .stockDetail(stockSymbol: mover.symbol)
+                                            }
+                                    }
                                 }
                             case .losers:
-                                ForEach(viewModel.marketMovers.losers) { mover in
-                                    marketMoverCard(mover: mover)
-                                        .onTapGesture {
-                                            coordinator.route = .stockDetail(stockSymbol: mover.symbol)
-                                        }
+                                if viewModel.marketMovers.losers.isEmpty {
+                                    TradeVisionLabel("Top Losers está vazia.", type: .subtitle, alignment: .center)
+                                        .padding()
+                                } else {
+                                    ForEach(viewModel.marketMovers.losers) { mover in
+                                        marketMoverCard(mover: mover)
+                                            .onTapGesture {
+                                                coordinator.route = .stockDetail(stockSymbol: mover.symbol)
+                                            }
+                                    }
                                 }
                             }
                         }
