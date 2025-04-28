@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DividendInfo: Codable {
+struct DividendInfo: Decodable {
     enum CodingKeys: String, CodingKey {
         case symbol
         case displayName = "name"

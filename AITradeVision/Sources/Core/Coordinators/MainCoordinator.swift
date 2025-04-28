@@ -67,7 +67,8 @@ final class MainCoordinator: Coordinator, ObservableObject {
                 .environmentObject(viewModel)
             
         case .nextIPOs:
-            let viewModel = IPOsViewModel()
+            let stockManager = StockManager(errorHandler: networkingHandler)
+            let viewModel = IPOsViewModel(stockManager: stockManager)
             
             IPOsView()
                 .environmentObject(viewModel)
