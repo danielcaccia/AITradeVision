@@ -15,6 +15,7 @@ enum Endpoint {
     case fetchTrendingNow
     case fetchUpcomingDividends
     case fetchUpcomingIPOs
+    case fetchTechnicalSignals
     case fetchNews(symbol: String)
     case fetchLatestNews
     case analyzeSentiment
@@ -43,6 +44,9 @@ enum Endpoint {
             
         case .fetchUpcomingIPOs:
             "upcoming-ipos"
+            
+        case .fetchTechnicalSignals:
+            "technical-signals"
             
         case .fetchNews(symbol: let symbol):
             "stock-news?symbol=\(symbol)"

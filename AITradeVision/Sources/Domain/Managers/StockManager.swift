@@ -14,6 +14,7 @@ protocol StockManagerProtocol {
     func fetchTrendingNow() async -> [MarketMoverDTO]
     func fetchUpcomingDividends() async -> [DividendInfoDTO]
     func fetchUpcomingIPOs() async -> [IPOInfoDTO]
+    func fetchTechnicalSignals() async -> [TechnicalSignalDTO]
 }
 
 class StockManager: StockManagerProtocol, ObservableObject {
@@ -62,5 +63,11 @@ class StockManager: StockManagerProtocol, ObservableObject {
         await Task.runWithHandlingArray({
             return try await self.financeService.fetchUpcomingIPOs().map { IPOInfoDTO(from: $0) }
         }, errorHandler: errorHandler, context: "StockManager.fetchUpcomingIPOs")
+    }
+    
+    func fetchTechnicalSignals() async -> [TechnicalSignalDTO] {
+        await Task.runWithHandlingArray({
+            return try await self.financeService.fetchTechnicalSignals().map { TechnicalSignalDTO(from: $0) }
+        }, errorHandler: errorHandler, context: "StockManager.fetchTechnicalSignals")
     }
 }
