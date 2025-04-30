@@ -9,12 +9,10 @@ import SwiftUI
 import TradeVisionUI
 
 struct RadarHeaderView: View {
-    let title: String
-    
     var body: some View {
         TradeVisionHStack(spacing: TradeVisionSpacing.sm) {
             TradeVisionImage(Image(.technicalRadar), type: .headerIcon)
-            TradeVisionLabel(title, type: .header)
+            TradeVisionLabel("Technical Radar", type: .header)
         }
     }
 }

@@ -15,7 +15,7 @@ struct IPOsView: View {
     var body: some View {
         ScrollView {
             TradeVisionVStack(alignment: .leading) {
-                IPOsHeaderView(title: "Next IPOs")
+                IPOsHeaderView()
                 
                 TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
                     if viewModel.isLoadingIPOs {

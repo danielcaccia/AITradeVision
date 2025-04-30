@@ -15,7 +15,7 @@ struct DividendsView: View {
     var body: some View {
         ScrollView {
             TradeVisionVStack(alignment: .leading) {
-                DividendsHeaderView(title: "Next Dividends")
+                DividendsHeaderView()
                 
                 TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
                     if viewModel.isLoadingDividends {

@@ -15,7 +15,7 @@ struct RadarView: View {
     var body: some View {
         ScrollView {
             TradeVisionVStack(alignment: .leading) {
-                IPOsHeaderView(title: "Next IPOs")
+                RadarHeaderView()
                 
                 TradeVisionVStack(alignment: .leading, spacing: TradeVisionSpacing.sm) {
                     if viewModel.isLoadingSignals {

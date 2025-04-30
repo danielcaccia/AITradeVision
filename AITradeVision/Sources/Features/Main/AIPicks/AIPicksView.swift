@@ -15,7 +15,7 @@ struct AIPicksView: View {
     var body: some View {
         ScrollView {
             TradeVisionVStack(alignment: .leading) {
-                AIPicksHeaderView(title: "AI Picks")
+                AIPicksHeaderView()
             }
             .padding()
         }

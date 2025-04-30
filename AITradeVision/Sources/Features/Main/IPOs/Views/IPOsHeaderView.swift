@@ -9,12 +9,10 @@ import SwiftUI
 import TradeVisionUI
 
 struct IPOsHeaderView: View {
-    let title: String
-    
     var body: some View {
         TradeVisionHStack(spacing: TradeVisionSpacing.sm) {
             TradeVisionImage(Image(.nextIPOs), type: .headerIcon)
-            TradeVisionLabel(title, type: .header)
+            TradeVisionLabel("Next IPOs", type: .header)
         }
     }
 }
