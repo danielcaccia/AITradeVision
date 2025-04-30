@@ -13,8 +13,8 @@ struct TechnicalSignalDTO: Identifiable {
     let name: String?
     let lastPrice: Double
     let rsi: Double?
-    let macdCross: String?
-    let signalSummary: MACDCrossTypeDTO
+    let macdCross: MACDCrossTypeDTO
+    let signalSummary: String?
     
     init(from signal: TechnicalSignal) {
         self.id = UUID()
@@ -22,8 +22,8 @@ struct TechnicalSignalDTO: Identifiable {
         self.name = signal.name
         self.lastPrice = signal.lastPrice
         self.rsi = signal.rsi
-        self.macdCross = signal.macdCross
-        self.signalSummary = MACDCrossTypeDTO(from: signal.signalSummary)
+        self.macdCross = MACDCrossTypeDTO(from: signal.macdCross)
+        self.signalSummary = signal.signalSummary
     }
 }
 

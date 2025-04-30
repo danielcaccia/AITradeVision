@@ -74,7 +74,8 @@ final class MainCoordinator: Coordinator, ObservableObject {
                 .environmentObject(viewModel)
             
         case .technicalRadar:
-            let viewModel = RadarViewModel()
+            let stockManager = StockManager(errorHandler: networkingHandler)
+            let viewModel = RadarViewModel(stockManager: stockManager)
             
             RadarView()
                 .environmentObject(viewModel)

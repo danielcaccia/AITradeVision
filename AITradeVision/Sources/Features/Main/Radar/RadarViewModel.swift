@@ -9,5 +9,24 @@ import Foundation
 
 @MainActor
 class RadarViewModel: ObservableObject {
-    init() {}
+    @Published var signals: [TechnicalSignalDTO] = []
+    
+    @Published var isLoadingSignals = false
+    
+    private let stockManager: any StockManagerProtocol
+    
+    init(stockManager: some StockManagerProtocol) {
+        self.stockManager = stockManager
+        
+        Task {
+            await fetchUpcomingDividends()
+        }
+    }
+    
+    private func fetchUpcomingDividends() async {
+        isLoadingSignals = true
+        defer { isLoadingSignals = false }
+        
+        signals = await stockManager.fetchTechnicalSignals()
+    }
 }

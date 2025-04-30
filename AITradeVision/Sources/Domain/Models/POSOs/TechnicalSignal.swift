@@ -21,8 +21,8 @@ struct TechnicalSignal: Decodable {
     let name: String?
     let lastPrice: Double
     let rsi: Double?
-    let macdCross: String?
-    let signalSummary: MACDCrossType
+    let macdCross: MACDCrossType
+    let signalSummary: String?
 }
 
 enum MACDCrossType: String, Decodable {

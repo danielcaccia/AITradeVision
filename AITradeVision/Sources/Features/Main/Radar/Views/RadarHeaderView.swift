@@ -13,7 +13,7 @@ struct RadarHeaderView: View {
     
     var body: some View {
         TradeVisionHStack(spacing: TradeVisionSpacing.sm) {
-            TradeVisionImage(Image(systemName: "scope"), type: .headerIcon)
+            TradeVisionImage(Image(.technicalRadar), type: .headerIcon)
             TradeVisionLabel(title, type: .header)
         }
     }

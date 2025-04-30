@@ -19,7 +19,7 @@ struct QuickActionsView: View {
             }
             
             TradeVisionHStack(spacing: TradeVisionSpacing.md) {
-                ActionButton(title: "Radar", icon: Image(systemName: "scope"), action: { coordinator.route = .technicalRadar })
+                ActionButton(title: "Radar", icon: Image(.radar), action: { coordinator.route = .technicalRadar })
                 ActionButton(title: "AI Picks", icon: Image(.AI), action: { coordinator.route = .aiPicks })
             }
         }
